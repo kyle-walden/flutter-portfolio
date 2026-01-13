@@ -1,0 +1,2 @@
+# Python dependencies for the pitboard backend (placeholder)
+flask

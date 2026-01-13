@@ -14,7 +14,7 @@ Built with Flutter, Firebase, Flask backends, and CI pipelines.
 ## 📱 Featured Projects
 
 ### 1. Pitboard – Motocross Telemetry & Lap Analysis
-**Stack:** Flutter · Firebase · Mapbox · CI/CD  
+**Stack:** 
 **Status:** Shipped
 
 - Real-time lap timing
@@ -27,12 +27,12 @@ Built with Flutter, Firebase, Flask backends, and CI pipelines.
 ---
 
 ### 2. Vendor0 - Service Vendor Booking Management Platform
-**Stack:** Flutter · Firebase · Flask API 
+**Stack:** 
 **Status:** Shipped
 
-- Gyroscope & accelerometer processing
-- Braking zone detection
-- Lap-based performance metrics
+- Vendor service management portal
+- Auto-generated customer facing booking platform
+- Business info management
 
 👉 [View Project →](projects/vendor0)
 
