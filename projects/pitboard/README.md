@@ -28,7 +28,7 @@ Motocross lap timing and telemetry analysis app focused on training feedback.
 - History
 - Session detail
 
-## Project Structure 
+## Project Folder Structure 
 - ☑️ added
 - ✅ done
 
