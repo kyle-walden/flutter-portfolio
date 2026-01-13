@@ -86,7 +86,9 @@ Each project follows a consistent layout:
 │   ├─ test/
 │   └─ pubspec.yaml
 ├─ backend/
-│   ├─ app/
+│   ├─ lib/
+│   │   ├─ core/
+│   │   ├─ features/
 │   ├─ tests/
 │   ├─ requirements.txt
 │   └─ README.md

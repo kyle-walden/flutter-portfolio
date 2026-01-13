@@ -1,5 +1,7 @@
 # Flutter Portfolio – Kyle Walden
 
+Flutter developer with full-stack ownership experience.
+
 Production-level Flutter apps focused on _, _, and _ use.
 Built with Flutter, Firebase, Flask backends, and CI pipelines.
 
