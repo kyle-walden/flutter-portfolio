@@ -36,23 +36,29 @@ pitboard /
 │
 ├─ README.md ☑️
 │
-├─── flutter_app/
+├─── flutter_app_(front_end)/
+│       │
 │       ├─── lib/
+│       │       │
 │       │       ├─── screens/ ☑️
 │       │       │       ├─── home.dart
 │       │       │       ├─── history.dart
-│       │       │       ├─── session_detail.dart
+│       │       │       └─── session_detail.dart
+│       │       │
 │       │       ├─── models/ ☑️
 │       │       │       └─── telemetry_sample.dart
+│       │       │
 │       │       ├─── services/ ☑️
 │       │       │       ├─── session_manager.dart
 │       │       │       ├─── firebase_services.dart
 │       │       │       ├─── platform_services.dart
 │       │       │       └─── local_storage.dart
+│       │       │
 │       │       ├─── widgets/ ☑️
 │       │       │       ├─── login.dart
 │       │       │       ├─── card.dart
 │       │       │       └─── carousel.dart
+│       │       │
 │       │       └─── main.dart ☑️
 │       │
 │       ├─── test/ ☑️
@@ -62,15 +68,18 @@ pitboard /
 │       └─── pubspec.yaml ☑️
 │
 ├─── backend/
+│       │
 │       ├─── main/ ☑️
 │       ├─── tests/ ☑️
 │       └─── README.md ☑️
 │
 ├─── ci/
+│       │
 │       ├─── github-actions.yml ☑️
 │       └─── xcode-cloud.md ☑️
 │
 └─── screenshots/
+        │
         ├─── homescreen.png
         ├─── history.png
         └─── session_detail.png
