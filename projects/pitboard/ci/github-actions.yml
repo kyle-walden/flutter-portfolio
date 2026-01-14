@@ -17,11 +17,11 @@ jobs:
           flutter-version: '3.10.0'
       - name: Install dependencies
         run: |
-          cd flutter-portfolio/pitboard/flutter_app_(front_end)
+          cd flutter-portfolio/pitboard/flutter_app
           flutter pub get
       - name: Run Flutter tests
         run: |
-          cd flutter-portfolio/pitboard/flutter_app_(front_end)
+          cd flutter-portfolio/pitboard/flutter_app
           flutter test
 
   backend:

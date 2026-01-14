@@ -2,7 +2,7 @@
 
 This folder is an abstracted, non-sensitive refractor of the original `Pitboard` project. It demonstrates the end-to-end structure used in the actual app.
 
-- Front-end: `flutter_app_(front_end)` (Flutter app architecture, feature-driven)
+- Front-end: `flutter_app` (Flutter app architecture, feature-driven)
 - Backend: `backend` (small example server and tests)
 - CI: `ci` (GitHub Actions skeleton)
 
@@ -16,7 +16,7 @@ Quick start (local):
 
 ```bash
 # from repository root
-cd flutter-portfolio/pitboard/flutter_app_(front_end)
+cd flutter-portfolio/pitboard/flutter_app
 flutter pub get
 flutter run -d chrome   # or -d <device>
 ```

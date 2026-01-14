@@ -2,18 +2,9 @@
 
 This README is the canonical template when viewing each project inside this portfolio showcase repository. It is designed to demonstrate:
 
-- ✅ Full-stack ownership (backend folder) 
-- ✅ Clean, scalable front-end architecture (flutter_app_(front_end) folder) 
-- ✅ CI/CD experience (ci folder with GitHub Actions + Xcode Cloud notes) 
-- ✅ Cross-platform support (platform tags on folders/files) 
 
 ## Stack demonstration
 
-The following tools and technologies are demonstrated in this portfolio:
-
-- Cross-platform framework: Flutter (Dart)
-- User security: Firebase Auth 
-- App analytics: Firebase Analytics (Google Analytics)
 - Remote data storage: Firebase Firestore (NoSQL database)
 - Local data storage: Local Cache (shared preferences, Hive)
 - Platform services: GPS, accelometers, gyroscopes
@@ -41,7 +32,7 @@ project/
 │
 ├─ README.md [REQ] {high-level description, platforms, demo URL, how to run}
 │
-├── flutter_app_(front_end)/ [REQ] (platform: ios, android, web, macos, windows, linux)
+├── flutter_app/ [REQ] (platform: ios, android, web, macos, windows, linux)
 │   ├── pubspec.yaml [REQ] {dependencies, sdk constraints, minimal explanation}
 │   ├── lib/ [REQ] {Dart source organized by feature/domain}
 │   │   ├── main.dart [REQ] {app entry, small bootstrap only}
@@ -81,7 +72,7 @@ project/
 
 ## File-level guidance and small contracts
 
-- `flutter_app_(front_end)/lib/main.dart` — minimal bootstrap only. Input: app config/env; Output: MaterialApp mounted; Error modes: crash on missing essential DI; Success: app runs and shows home route.
+- `flutter_app/lib/main.dart` — minimal bootstrap only. Input: app config/env; Output: MaterialApp mounted; Error modes: crash on missing essential DI; Success: app runs and shows home route.
 - `features/<x>/...` — each folder contains models, views, and state. Keep dependencies inward-facing so features can be moved or extracted.
 - `backend/main/*` — provide a small, runnable example (e.g., Flask app with 1-2 endpoints) and tests that run with a single command.
 - `ci/github-actions.yml` — must show build and test steps for both backend and front-end, plus an example deploy (mock or step placeholder if secrets removed).
