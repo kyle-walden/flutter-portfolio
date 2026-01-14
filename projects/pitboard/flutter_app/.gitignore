@@ -1,0 +1,22 @@
+# flutter related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+build/
+.flutter-versions
+# iOS related
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Generated.xcconfig
+# Android related
+.android/
+app/build/
+# VS Code related
+.vscode/
+# IntelliJ related
+.idea/
+*.iml
