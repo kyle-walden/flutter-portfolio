@@ -1,85 +1,37 @@
-# Pitboard
+# Pitboard (abstracted)
 
-## Overview
-Motocross lap timing and telemetry analysis app focused on training feedback.
+This folder is an abstracted, non-sensitive refractor of the original `Pitboard` project. It demonstrates the end-to-end structure used in the actual app.
 
-## Architecture
-- Feature-first Flutter structure
-- Domain-driven separation (data / domain / UI)
-- Firebase used for auth and sync
-- Local persistence via Hive
+- Front-end: `flutter_app_(front_end)` (Flutter app architecture, feature-driven)
+- Backend: `backend` (small example server and tests)
+- CI: `ci` (GitHub Actions skeleton)
 
-## Key Technical Challenges
-- GPS noise filtering
-- Corner detection without speed data
-- Continuous heatmap rendering
+Purpose: provide a lightweight, reviewable snapshot of the project that shows architecture, testing, and CI/CD without including private data.
 
-## Notable Decisions
-- Why Firebase over custom auth
-- Why no manual corner overrides
-- Why Mapbox instead of Google Maps
+Supported platforms: iOS, Android
 
-## CI / Delivery
-- GitHub Actions for lint + test
-- Xcode Cloud for App Store builds
+Quick start (local):
 
-## Screenshots
-- Homescreen
-- History
-- Session detail
+1. Front-end (Flutter):
 
-## Project Folder Structure 
-- ☑️ added
-- ✅ done
+```bash
+# from repository root
+cd flutter-portfolio/pitboard/flutter_app_(front_end)
+flutter pub get
+flutter run -d chrome   # or -d <device>
+```
 
-pitboard /
-│
-├─ README.md ☑️
-│
-├─── flutter_app_(front_end)/
-│       │
-│       ├─── lib/
-│       │       │
-│       │       ├─── screens/ ☑️
-│       │       │       ├─── home.dart
-│       │       │       ├─── history.dart
-│       │       │       └─── session_detail.dart
-│       │       │
-│       │       ├─── models/ ☑️
-│       │       │       └─── telemetry_sample.dart
-│       │       │
-│       │       ├─── services/ ☑️
-│       │       │       ├─── session_manager.dart
-│       │       │       ├─── firebase_services.dart
-│       │       │       ├─── platform_services.dart
-│       │       │       └─── local_storage.dart
-│       │       │
-│       │       ├─── widgets/ ☑️
-│       │       │       ├─── login.dart
-│       │       │       ├─── card.dart
-│       │       │       └─── carousel.dart
-│       │       │
-│       │       └─── main.dart ☑️
-│       │
-│       ├─── test/ ☑️
-│       │      ├─── test_login.dart
-│       │      └─── test_session_manager.dart
-│       │
-│       └─── pubspec.yaml ☑️
-│
-├─── backend/
-│       │
-│       ├─── main/ ☑️
-│       ├─── tests/ ☑️
-│       └─── README.md ☑️
-│
-├─── ci/
-│       │
-│       ├─── github-actions.yml ☑️
-│       └─── xcode-cloud.md ☑️
-│
-└─── screenshots/
-        │
-        ├─── homescreen.png
-        ├─── history.png
-        └─── session_detail.png
+2. Backend (Python/Flask):
+
+```bash
+cd flutter-portfolio/pitboard/backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main/app.py
+# health: curl http://localhost:8000/health
+```
+
+Notes:
+- This is intentionally minimal and abstracted; sensitive or proprietary logic from the original `../Pitboard` project has been removed.
+- CI is a skeleton showing tests for front-end and backend. Secrets (API keys, etc.) are intentionally omitted.

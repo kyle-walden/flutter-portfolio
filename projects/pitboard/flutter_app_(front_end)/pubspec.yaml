@@ -1,0 +1,31 @@
+name: pitboard
+description: "Pitboard (abstracted) - frontend showcase"
+version: 0.0.1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.0
+  # Firebase (abstracted usage for auth, firestore, analytics)
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.6.0
+  cloud_firestore: ^4.8.0
+  firebase_analytics: ^10.0.0
+  # Local storage / caching
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  # Mapbox - map rendering (requires native setup; API keys are intentionally omitted)
+  mapbox_gl: ^0.15.0
+  # HTTP client
+  http: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

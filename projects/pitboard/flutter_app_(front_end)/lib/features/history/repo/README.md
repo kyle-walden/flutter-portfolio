@@ -1,0 +1,1 @@
+Repository placeholder: in the real project this would contain a Firestore-backed repository that also writes to Hive for caching. This folder is intentionally empty in the showcase; implementors should provide `history_repository.dart` which abstracts Firestore and Hive reads/writes.
