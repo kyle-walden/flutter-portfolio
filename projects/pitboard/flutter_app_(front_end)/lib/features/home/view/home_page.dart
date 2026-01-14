@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../auth/state/auth_provider.dart';
 import '../../auth/view/sign_in_page.dart';
-import '../../../core/services/preferences_service.dart';
+import '../state/location_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,14 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _locationEnabled = false;
-
   @override
   void initState() {
     super.initState();
-    PreferencesService.isLocationEnabled().then((v) {
-      if (mounted) setState(() => _locationEnabled = v);
-    });
   }
   @override
   Widget build(BuildContext context) {
@@ -66,15 +61,34 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 12),
                   SwitchListTile(
                     title: const Text('Enable location'),
-                    value: _locationEnabled,
+                    value: Provider.of<LocationProvider>(context).enabled,
                     onChanged: (v) async {
-                      await PreferencesService.setLocationEnabled(v);
-                      if (mounted) setState(() => _locationEnabled = v);
+                      // delegate to provider which handles permission & prefs
+                      final provider = Provider.of<LocationProvider>(context, listen: false);
+                      await provider.toggle(v);
+                      if (!provider.enabled) {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Location permission denied or disabled'),
+                        ));
+                      }
                     },
-                  )
+                  ),
+
+                  const SizedBox(height: 12),
+                  Consumer<LocationProvider>(builder: (_, lp, __) {
+                    if (!lp.enabled) return const SizedBox.shrink();
+                    if (lp.currentPosition == null) return const Text('Waiting for location...');
+                    final pos = lp.currentPosition!;
+                    return Text('Location: ${pos.latitude.toStringAsFixed(6)}, ${pos.longitude.toStringAsFixed(6)}');
+                  }),
                 ],
               ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

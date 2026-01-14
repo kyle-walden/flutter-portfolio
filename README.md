@@ -11,18 +11,16 @@ This README is the canonical template when viewing each project inside this port
 
 The following tools and technologies are demonstrated in this portfolio:
 
-- Flutter (Dart)
-- Firebase Auth 
-- Firebase Analytics (Google Analytics)
-- Firebase Firestore (NoSQL database)
-- Local Cache (shared preferences, Hive)
-- Platform services (GPS, accelometers, gyroscopes)
-- Mapping (Mapbox)
-- Firebase Functions (serverless backend)
-- Flask Server (Python)
-- Xcode Cloud (CI)
-
-Sensitive details removed — the original projects referenced are outside this repo.
+- Cross-platform framework: Flutter (Dart)
+- User security: Firebase Auth 
+- App analytics: Firebase Analytics (Google Analytics)
+- Remote data storage: Firebase Firestore (NoSQL database)
+- Local data storage: Local Cache (shared preferences, Hive)
+- Platform services: GPS, accelometers, gyroscopes
+- Mapping: Mapbox
+- Serverless end-point: Firebase Functions
+- Server end-point: Flask Server (Python)
+- CI/CD: Xcode Cloud, GitHub Actions
 
 ## Project template notation legend
 
@@ -34,6 +32,8 @@ Sensitive details removed — the original projects referenced are outside this 
 - {purpose}: a short human-readable purpose for the file/folder.
 
 ## Top-level project template
+
+Sensitive details removed — the original projects referenced are outside this repo.
 
 Each project folder should follow this pattern. Replace `project/` with your project name (e.g., `pitboard/`, `vendor0-slim/`).
 

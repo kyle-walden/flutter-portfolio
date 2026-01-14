@@ -24,6 +24,8 @@ dependencies:
   http: ^1.1.0
   # Shared preferences for small user settings
   shared_preferences: ^2.2.0
+  # Geolocation and permission handling for streaming GPS
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
