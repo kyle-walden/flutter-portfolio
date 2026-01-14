@@ -1,0 +1,45 @@
+name: iOS Release (pitboard)
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build Release IPA and optionally upload
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: projects/pitboard/flutter_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods -v 1.12.1 || true
+          pod repo update || true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build IPA
+        run: flutter build ipa --release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa-release
+          path: build/ios/ipa
+
+      - name: (Optional) Publish to App Store Connect
+        if: github.event_name == 'workflow_dispatch' && false
+        run: |
+          echo "Configure Fastlane or use gh-actions for App Store Connect uploads. Keep credentials in secrets." 

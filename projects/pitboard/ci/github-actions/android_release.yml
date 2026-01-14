@@ -1,0 +1,46 @@
+name: Android Release (pitboard)
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build Release APK / AAB
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/pitboard/flutter_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build App Bundle (release)
+        run: flutter build appbundle --release --obfuscate --split-debug-info=build/symbols
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: appbundle-release
+          path: build/app/outputs/bundle/release
+
+      - name: (Optional) Publish to Play Store
+        if: github.event_name == 'workflow_dispatch' && false
+        run: |
+          echo "Hook to publish using Fastlane or Google Play Developer API. Configure secrets and enable this step." 

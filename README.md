@@ -2,9 +2,19 @@
 
 This README is the canonical template when viewing each project inside this portfolio showcase repository. It is designed to demonstrate:
 
+- Full-stack ownership (backend folder) 
+- Clean, scalable front-end architecture (flutter_app_(front_end) folder) 
+- CI: Code Integration & Testing (Builds & Tests).
+- CD (Delivery): Code Delivery (Ready to Deploy).
+- Cross-platform support (platform tags on folders/files) 
 
 ## Stack demonstration
 
+The following tools and technologies are demonstrated in this portfolio:
+
+- Cross-platform framework: Flutter (Dart)
+- User security: Firebase Auth 
+- App analytics: Firebase Analytics (Google Analytics)
 - Remote data storage: Firebase Firestore (NoSQL database)
 - Local data storage: Local Cache (shared preferences, Hive)
 - Platform services: GPS, accelometers, gyroscopes
@@ -26,8 +36,6 @@ This README is the canonical template when viewing each project inside this port
 
 Sensitive details removed — the original projects referenced are outside this repo.
 
-Each project folder should follow this pattern. Replace `project/` with your project name (e.g., `pitboard/`, `vendor0-slim/`).
-
 project/
 │
 ├─ README.md [REQ] {high-level description, platforms, demo URL, how to run}
@@ -39,21 +47,20 @@ project/
 │   │   ├── app/ [REQ] {App-level wiring: router, themes, global providers}
 │   │   │   └── app.dart [SAMPLE] {MaterialApp/CupertinoApp wrapper}
 │   │   ├── features/ [REQ] {each feature is self-contained}
-│   │   │   ├── feature_x/
-│   │   │   │   ├── models/ [REQ] {domain models}
-│   │   │   │   ├── view/ [REQ] {widgets/screens}
-│   │   │   │   ├── data/ [OPT] {DTOs, API mappers}
-│   │   │   │   ├── repo/ [OPT] {repository interface + implementation (talks to core/services/http)}
-│   │   │   │   ├── widgets/ [OPT] {feature-scoped reusable widgets}
-│   │   │   │   ├── tests/ [OPT] {unit tests for models/repo/state and widget tests for views}
-│   │   │   │   └── state/ [REQ] {state management: bloc|provider|controller}
+│   │   │   └──  feature_x/
+│   │   │      ├── models/ [OPT] {domain models}
+│   │   │      ├── view/ [REQ] {widgets/screens}
+│   │   │      ├── data/ [OPT] {DTOs, API mappers}
+│   │   │      ├── repo/ [OPT] {repository interface + implementation (talks to core/services/http)}
+│   │   │      ├── widgets/ [OPT] {feature-scoped reusable widgets}
+│   │   │      ├── tests/ [REQ] {unit tests for models/repo/state and widget tests for views}
+│   │   │      └── state/ [REQ] {state management: bloc|provider|controller}
 │   │   ├── core/ [REQ] {shared infrastructure: http, storage, error handling}
 │   │   │   ├── services/ [REQ] {HTTP client wrappers, local storage, analytics (only abstracted placeholders), error handling utilities}
-│   │   │   ├── utils/ [OPT]
+│   │   │   ├── utils/ [OPT] {general-purpose utilities}
 │   │   │   └── di/ [OPT] {dependency injection wiring}
 │   │   └── shared_widgets/ [OPT] {reusable UI components - buttons, loaders, error cards used across features}
-│   ├── test/ [REQ] {unit/widget tests; at least one smoke test}
-│   └── CI/ [OPT] {local scripts or hints for CI if needed}
+│   └── test/ [REQ] {unit/widget tests; at least one smoke test}
 │
 ├── backend/ [REQ] {demonstrates full-stack ownership}
 │   ├── README.md [REQ] {how to run locally, endpoints, env vars (abstracted)}
@@ -61,12 +68,16 @@ project/
 │   │   ├── app.py | index.js | main.go [SAMPLE]
 │   ├── tests/ [REQ] {unit/integration tests that can run headlessly}
 │   └── infra/ [OPT] {deploy scripts, Dockerfile (abstracted)}
-│
-├── ci/ [REQ] {CI/CD manifests showing automation}
-│   ├── github-actions.yml [REQ] {build, test, publish where appropriate}
-│   ├── xcode-cloud.md [OPT] {notes + sample config to demonstrate Xcode Cloud knowledge}
-│   └── release/ [OPT] {scripts used by CI to create artifacts}
-│
+│ 
+├── ci/ [REQ] {CI/CD showcase — the docs + sample workflows}
+│   ├── README.md [REQ] {what each workflow does + how to run locally}
+│   ├── github-actions/ (show sample YAMLs)
+│   │   ├── ci.yml [REQ] {PR CI: analyze, unit tests, build debug artifact}
+│   │   └── release.yml [REQ] {CD: produce release artifacts}
+│   └── xcode-cloud/ {CD: pre- and post-build scripts samples}
+│       ├── ci_pre_xcodebuild [REQ] {xcode cloud pre-build script sample}
+│       └── ci_post_xcodebuild [REQ] {xcode cloud post-build script sample}
+│   
 └── screenshots/ [OPT] {PNG/JPG placeholders used in README or portfolio site}
         └── placeholder.png [SAMPLE]
 

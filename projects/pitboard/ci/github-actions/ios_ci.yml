@@ -1,0 +1,46 @@
+name: iOS CI (pitboard)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build & Test (iOS)
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: projects/pitboard/flutter_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods -v 1.12.1 || true
+          pod repo update || true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Run tests
+        run: flutter test --no-color
+
+      - name: Build iOS (archive)
+        run: flutter build ipa --release --no-tree-shake-icons
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-artifacts
+          path: build/ios/ipa
