@@ -62,12 +62,14 @@ project/
 │   │   └── shared_widgets/ [OPT] {reusable UI components - buttons, loaders, error cards used across features}
 │   └── test/ [REQ] {unit/widget tests; at least one smoke test}
 │
-├── backend/ [REQ] {demonstrates full-stack ownership}
-│   ├── README.md [REQ] {how to run locally, endpoints, env vars (abstracted)}
-│   ├── main/ [REQ] {source: example server or functions}
-│   │   ├── app.py | index.js | main.go [SAMPLE]
-│   ├── tests/ [REQ] {unit/integration tests that can run headlessly}
-│   └── infra/ [OPT] {deploy scripts, Dockerfile (abstracted)}
+├── backend/ [REQ] {demonstrates backend awareness and integration ownership}
+│   ├─ README.md
+│   ├─ .env.example
+│   └── firebase/
+│       ├── functions/ [REQ] {source: serverless functions}
+│       │   ├──  src/
+│       │   └──  tests/
+│       └──  firebase.json {Firebase project configuration}
 │ 
 ├── ci/ [REQ] {CI/CD showcase — the docs + sample workflows}
 │   ├── README.md [REQ] {what each workflow does + how to run locally}
