@@ -1,22 +1,30 @@
 ## Flutter Portfolio — Project Folder Template
 
-I referred to the repository instructions at `.github/instructions/gpt_instructions.instructions.md` and followed the Flutter app architecture guidance (flutter.dev/app-architecture and linked concept/guide/case-study pages) to produce this reference structure. This README is the canonical template you should follow when creating each project inside this showcase repository. It is designed to demonstrate:
+This README is the canonical template when viewing each project inside this portfolio showcase repository. It is designed to demonstrate:
 
-- Full-stack ownership (backend folder) ✅
-- Clean, scalable front-end architecture (flutter_app_(front_end) folder) ✅
-- CI/CD experience (ci folder with GitHub Actions + Xcode Cloud notes) ✅
-- Cross-platform support (platform tags on folders/files) ✅
+- ✅ Full-stack ownership (backend folder) 
+- ✅ Clean, scalable front-end architecture (flutter_app_(front_end) folder) 
+- ✅ CI/CD experience (ci folder with GitHub Actions + Xcode Cloud notes) 
+- ✅ Cross-platform support (platform tags on folders/files) 
 
-Use this template when you add a new project (an abstracted/refactored version of the real project that lives outside this repo). Keep sensitive details removed — the original projects are referenced outside this repo as described in the instructions.
+## Stack demonstration
 
-### Quick overview — what I changed / added
+The following tools and technologies are demonstrated in this portfolio:
 
-- Expanded the folder tree with explicit file/dir notation and purpose.
-- Added a notation legend so contributors know what each tag means.
-- Mapped top-level folders to the showcase goals.
-- Added a short checklist and next steps for bootstrapping a new project.
+- Flutter (Dart)
+- Firebase Auth 
+- Firebase Analytics (Google Analytics)
+- Firebase Firestore (NoSQL database)
+- Local Cache (shared preferences, Hive)
+- Platform services (GPS, accelometers, gyroscopes)
+- Mapping (Mapbox)
+- Firebase Functions (serverless backend)
+- Flask Server (Python)
+- Xcode Cloud (CI)
 
-## Notation legend
+Sensitive details removed — the original projects referenced are outside this repo.
+
+## Project template notation legend
 
 - [REQ] required for the showcase (must be present and populated).
 - [OPT] optional but recommended (helpful to include where available).
@@ -84,34 +92,3 @@ project/
 - Secrets: never check secrets into this repo; add clear README placeholders and `.env.example` where appropriate.
 - Platform-specific code: include platform tags and a short note about how to test locally (e.g., `flutter run -d chrome` for web).
 
-## Minimal example entries (what to include right away)
-
-- README.md: short description (1–2 paragraphs), supported platforms, run instructions for front-end and back-end, CI notes.
-- flutter_app_(front_end)/pubspec.yaml: sdk constraints, a few core dependencies (flutter, cupertino_icons, provider or riverpod), and a note "See architecture notes in shared/".
-- backend/README.md: start command, ports, example curl for a health endpoint.
-- ci/github-actions.yml: skeleton with steps: checkout, setup Flutter, run flutter test, run backend tests, optional artifact upload.
-
-## Checklist when adding a new project
-
-1. Create `project/` folder from this template. [ ]
-2. Populate `README.md` with run steps and platforms. [ ]
-3. Add `flutter_app_(front_end)` with `main.dart`, minimal feature folder, and at least one test. [ ]
-4. Add `backend` with a runnable script and health endpoint plus tests. [ ]
-5. Add CI `github-actions.yml` that runs tests for both parts. [ ]
-6. Commit and open a PR that references the original project (outside this repo) for reviewers.
-
-## Mapping to showcase goals
-
-- Full-stack ownership: `backend/` contains source + tests showing server-side reasoning. ✅
-- Clean, scalable app architecture: `flutter_app_(front_end)/lib/` follows feature + core + app wiring. ✅
-- CI/CD: `ci/github-actions.yml` plus `xcode-cloud.md` demonstrates knowledge of automation and iOS release flow. ✅
-- Cross-platform: add platform tags and include `platform:` notes in README and CI where applicable. ✅
-
-## Next steps (recommended)
-
-1. Use this README as a template and create a project skeleton for one of your projects (e.g., `pitboard/`), populating only non-sensitive placeholder code.
-2. Add a small smoke test for front-end and backend and run the CI skeleton locally or via GitHub to verify pipelines. (CI secrets can be omitted and replaced with job `if: false` steps to show intent.)
-3. Iterate: flesh out one feature end-to-end (small) to serve as the exemplar for reviewers.
-
----
-Completion summary: I expanded the README into a detailed project folder template and notation legend so you have a single reference when building each project folder in `flutter-portfolio`. This file replaces the previous brief checklist and now maps clearly to the showcase goals in the repo instructions.
