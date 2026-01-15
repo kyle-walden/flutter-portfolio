@@ -2,11 +2,10 @@
 
 This README is the canonical template when viewing each project inside this portfolio showcase repository. It is designed to demonstrate:
 
-- Full-stack ownership (backend folder) 
-- Clean, scalable front-end architecture (flutter_app_(front_end) folder) 
-- CI: Code Integration & Testing (Builds & Tests).
-- CD (Delivery): Code Delivery (Ready to Deploy).
-- Cross-platform support (platform tags on folders/files) 
+- Full-stack ownership/awareness
+- Clean, scalable front-end architecture
+- CI (Code Integration: Builds & Tests) / CD (Code Delivery: Ready to Deploy).
+- Cross-platform developement with Flutter (Dart)
 
 ## Stack demonstration
 
@@ -63,13 +62,31 @@ project/
 │   └── test/ [REQ] {unit/widget tests; at least one smoke test}
 │
 ├── backend/ [REQ] {demonstrates backend awareness and integration ownership}
-│   ├─ README.md
-│   ├─ .env.example
+│   ├─ README.md {how to run the functions emulator & tests}
+│   ├─ .env.example {redacted env var names; do NOT commit secrets}
 │   └── firebase/
-│       ├── functions/ [REQ] {source: serverless functions}
-│       │   ├──  src/
-│       │   └──  tests/
-│       └──  firebase.json {Firebase project configuration}
+│       ├── firebase.json {Firebase project configuration and emulator ports}
+│       ├── .firebaserc {project alias placeholders}
+│       ├── emulator/
+│       │   └── start-emulator.sh {helper to start functions+firestore emulators}
+│       └── functions/ [REQ] {TypeScript Firebase Functions project}
+│           └──  package.json {dependencies + scripts: build, test, emulate}
+│                   ├── tsconfig.json {TypeScript compiler settings}
+│                   ├── jest.config.cjs {Jest config for unit tests}
+│                   ├── .eslintrc.js {optional linting rules}
+│                   ├── README.md {function-specific docs and quickstart}
+│                   ├── src/
+│                   │   ├── index.ts {exports functions: http handlers & triggers}
+│                   │   ├── http/
+│                   │   │   ├── status.ts {health endpoint}
+│                   │   │   └── sessions.ts {example session create HTTP handler}
+│                   │   ├── triggers/
+│                   │   │   └── historyOnCreate.ts {Firestore onCreate trigger example}
+│                   │   └── lib/
+│                   │       ├── logger.ts {small structured logger helper}
+│                   │       └── validate.ts {small validation helpers}
+│                   └── tests/
+│                           └── status.test.ts {Jest unit test for the status handler}
 │ 
 ├── ci/ [REQ] {CI/CD showcase — the docs + sample workflows}
 │   ├── README.md [REQ] {what each workflow does + how to run locally}

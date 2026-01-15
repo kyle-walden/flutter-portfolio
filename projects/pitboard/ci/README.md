@@ -1,7 +1,7 @@
 CI for projects/pitboard
 =======================
 
-This folder contains CI/CD examples and helper scripts used to demonstrate a realistic mobile/web CI setup for the `pitboard` showcase project. All scripts are intentionally redacted of secrets.
+This folder contains CI/CD examples and helper scripts used to demonstrate a realistic mobile CI setup for the `Pitboard` showcase project. All scripts are intentionally redacted of secrets.
 
 What lives here
 ---------------
