@@ -18,6 +18,7 @@ This repository is an abstracted/redacted extraction of the original project int
 - [Tech Stack](#tech-stack)
 - [Architecture Overview](#architecture-overview)
 - [Technical Challenges](#technical-challenges)
+- [Tradeoffs / Decisions](#tradeoffs--decisions)
 - [Repository Structure](#repository-structure)
 - [Notes](#notes)
 
@@ -71,7 +72,12 @@ This repository is an abstracted/redacted extraction of the original project int
   - Constraint: High-frequency GPS and telemetry sampling generated large session payloads, requiring reliable remote upload without blocking the UI or degrading in-session performance.  
   - Resolution: Designed a scalable data model and staged upload pipeline that batches and streams session data efficiently, keeping capture responsive while ensuring complete and consistent remote persistence.
 
+## Tradeoffs / Decisions
+
+-
+
 ## Repository Structure
+
 Refer to each README.md in the folders for more details and further structure.
 
 - `README.md` — this file
@@ -84,5 +90,4 @@ Refer to each README.md in the folders for more details and further structure.
 - Security / abstraction disclaimer:
 	- This repository is intentionally redacted for public distribution.
 	- Secrets, credential files, production configuration, and some implementation details are omitted.
-	- For full context, refer to the original private repo (`./Pitboard`) when permitted.
 

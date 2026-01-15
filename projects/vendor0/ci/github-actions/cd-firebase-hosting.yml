@@ -1,0 +1,49 @@
+name: CD — Deploy to Firebase Hosting (vendor0 web)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy to Firebase Hosting
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./projects/vendor0/flutter_app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release
+
+      - name: Install Firebase CLI
+        run: |
+          curl -sL https://firebase.tools | bash
+
+      - name: Authenticate to Firebase
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/firebase-sa.json
+          firebase login:ci --no-localhost || true
+          firebase use --add || true
+          gcloud auth activate-service-account --key-file=/tmp/firebase-sa.json || true
+
+      - name: Deploy to Hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          # Deploy the contents of build/web to Firebase Hosting site configured in firebase.json
+          firebase deploy --only hosting --token "$FIREBASE_TOKEN"

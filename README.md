@@ -1,115 +1,102 @@
-## Flutter Portfolio — Project Folder Template
+# Kyle Walden – Flutter Portfolio
 
-This README is the canonical template when viewing each project inside this portfolio showcase repository. It is designed to demonstrate:
+This monorepo portfolio represents production-level work by a junior–mid Flutter developer with end-to-end feature ownership experience.
 
-- Full-stack ownership/awareness
+Intended roles: Flutter Developer / Mobile Engineer (Cross-platform)
+
+## Purpose
+
+The purpose of this portfolio is to demonstrate:
+
+- Full-stack ownership and integration awareness
 - Clean, scalable front-end architecture
 - CI (Code Integration: Builds & Tests) / CD (Code Delivery: Ready to Deploy).
-- Cross-platform developement with Flutter (Dart)
+- Cross-platform development with Flutter (Dart)
 
-## Stack demonstration
+## How to Review
 
-The following tools and technologies are demonstrated in this portfolio:
+- Start with `projects/pitboard/README.md` for a full mobile example: [Pitboard](projects/pitboard/README.md)
+- Review `/shared/architecture_patterns.md` for cross-project standards: [Architecture Patterns](shared/architecture_patterns.md)
+- CI/CD examples live under `/ci/`: [CI example](projects/pitboard/ci)
+
+## Scope & Ownership
+
+All projects in this repository were designed, implemented, and maintained by me as a solo developer.
+
+
+## Quick Index
+- [Tech Stack](#tech-stack)
+- [Projects](#projects)
+- [Portfolio Structure](#portfolio-level-structure)
+- [Project Folder Structure](#project-folder-level-structure)
+- [Architecture Overview](#architecture-overview)
+
+## Tech Stack
+
+The following tools and technologies are demonstrated in this portfolio's projects:
 
 - Cross-platform framework: Flutter (Dart)
 - User security: Firebase Auth 
 - App analytics: Firebase Analytics (Google Analytics)
 - Remote data storage: Firebase Firestore (NoSQL database)
-- Local data storage: Local Cache (shared preferences, Hive)
-- Platform services: GPS, accelometers, gyroscopes
+- Local data storage: Local caching (shared preferences, Hive)
+- Platform services: GPS, accelerometers, gyroscopes
 - Mapping: Mapbox
-- Serverless end-point: Firebase Functions
-- Server end-point: Flask Server (Python)
+- Serverless endpoint: Firebase Functions
+- Server endpoint: Flask Server (Python)
 - CI/CD: Xcode Cloud, GitHub Actions
 
-## Project template notation legend
+Each project is an abstract, redacted/stubbed version of a real-world app, designed to showcase architecture patterns, methodologies, and full-stack awareness.
 
-- [REQ] required for the showcase (must be present and populated).
-- [OPT] optional but recommended (helpful to include where available).
-- [SAMPLE] include a small placeholder or example file to show structure.
-- [ABST] abstracted — remove sensitive data, replace with mocks/fakes.
-- (platform: ios, android, web, macos, windows, linux) — indicates platforms supported.
-- {purpose}: a short human-readable purpose for the file/folder.
+## Projects
 
-## Top-level project template
+### [Pitboard](projects/pitboard)
 
-Sensitive details removed — the original projects referenced are outside this repo.
+Status: Production (shipped)
 
-project/
-│
-├─ README.md [REQ] {high-level description, platforms, demo URL, how to run}
-│
-├── flutter_app/ [REQ] (platform: ios, android, web, macos, windows, linux)
-│   ├── pubspec.yaml [REQ] {dependencies, sdk constraints, minimal explanation}
-│   ├── lib/ [REQ] {Dart source organized by feature/domain}
-│   │   ├── main.dart [REQ] {app entry, small bootstrap only}
-│   │   ├── app/ [REQ] {App-level wiring: router, themes, global providers}
-│   │   │   └── app.dart [SAMPLE] {MaterialApp/CupertinoApp wrapper}
-│   │   ├── features/ [REQ] {each feature is self-contained}
-│   │   │   └──  feature_x/
-│   │   │      ├── models/ [OPT] {domain models}
-│   │   │      ├── view/ [REQ] {widgets/screens}
-│   │   │      ├── data/ [OPT] {DTOs, API mappers}
-│   │   │      ├── repo/ [OPT] {repository interface + implementation (talks to core/services/http)}
-│   │   │      ├── widgets/ [OPT] {feature-scoped reusable widgets}
-│   │   │      ├── tests/ [REQ] {unit tests for models/repo/state and widget tests for views}
-│   │   │      └── state/ [REQ] {state management: bloc|provider|controller}
-│   │   ├── core/ [REQ] {shared infrastructure: http, storage, error handling}
-│   │   │   ├── services/ [REQ] {HTTP client wrappers, local storage, analytics (only abstracted placeholders), error handling utilities}
-│   │   │   ├── utils/ [OPT] {general-purpose utilities}
-│   │   │   └── di/ [OPT] {dependency injection wiring}
-│   │   └── shared_widgets/ [OPT] {reusable UI components - buttons, loaders, error cards used across features}
-│   └── test/ [REQ] {unit/widget tests; at least one smoke test}
-│
-├── backend/ [REQ] {demonstrates backend awareness and integration ownership}
-│   ├─ README.md {how to run the functions emulator & tests}
-│   ├─ .env.example {redacted env var names; do NOT commit secrets}
-│   └── firebase/
-│       ├── firebase.json {Firebase project configuration and emulator ports}
-│       ├── .firebaserc {project alias placeholders}
-│       ├── emulator/
-│       │   └── start-emulator.sh {helper to start functions+firestore emulators}
-│       └── functions/ [REQ] {TypeScript Firebase Functions project}
-│           └──  package.json {dependencies + scripts: build, test, emulate}
-│                   ├── tsconfig.json {TypeScript compiler settings}
-│                   ├── jest.config.cjs {Jest config for unit tests}
-│                   ├── .eslintrc.js {optional linting rules}
-│                   ├── README.md {function-specific docs and quickstart}
-│                   ├── src/
-│                   │   ├── index.ts {exports functions: http handlers & triggers}
-│                   │   ├── http/
-│                   │   │   ├── status.ts {health endpoint}
-│                   │   │   └── sessions.ts {example session create HTTP handler}
-│                   │   ├── triggers/
-│                   │   │   └── historyOnCreate.ts {Firestore onCreate trigger example}
-│                   │   └── lib/
-│                   │       ├── logger.ts {small structured logger helper}
-│                   │       └── validate.ts {small validation helpers}
-│                   └── tests/
-│                           └── status.test.ts {Jest unit test for the status handler}
-│ 
-├── ci/ [REQ] {CI/CD showcase — the docs + sample workflows}
-│   ├── README.md [REQ] {what each workflow does + how to run locally}
-│   ├── github-actions/ (show sample YAMLs)
-│   │   ├── ci.yml [REQ] {PR CI: analyze, unit tests, build debug artifact}
-│   │   └── release.yml [REQ] {CD: produce release artifacts}
-│   └── xcode-cloud/ {CD: pre- and post-build scripts samples}
-│       ├── ci_pre_xcodebuild [REQ] {xcode cloud pre-build script sample}
-│       └── ci_post_xcodebuild [REQ] {xcode cloud post-build script sample}
-│   
-└── screenshots/ [OPT] {PNG/JPG placeholders used in README or portfolio site}
-        └── placeholder.png [SAMPLE]
+Description
+---------------
+Pitboard is a shipped mobile application for iOS (Android in progress) that records motocross rides/sessions using GPS and on-device telemetry, aggregates performance metrics, and provides post-session analysis to help riders evaluate and improve riding performance.
 
-## File-level guidance and small contracts
+Features
+---------------
+- High-frequency (1-10hz) session GPS position capture with lap detection
+- On-device telemetry sampling (10hz) (accelerometers, gyroscopes) during sessions
+- Post-ride analysis and visualisations (sections, metrics, statistics, ride heatmap visualisations)
+- Offline-first session capture with local persistence and background sync
+- Batched/staged uploads for large session payloads to cloud storage
+- User authentication, profiles, and per-user data scoping
+- Google analytics integrations
 
-- `flutter_app/lib/main.dart` — minimal bootstrap only. Input: app config/env; Output: MaterialApp mounted; Error modes: crash on missing essential DI; Success: app runs and shows home route.
-- `features/<x>/...` — each folder contains models, views, and state. Keep dependencies inward-facing so features can be moved or extracted.
-- `backend/main/*` — provide a small, runnable example (e.g., Flask app with 1-2 endpoints) and tests that run with a single command.
-- `ci/github-actions.yml` — must show build and test steps for both backend and front-end, plus an example deploy (mock or step placeholder if secrets removed).
+### [vendor0](projects/vendor0)
 
-## Edge cases & how to handle them
+Status: Production (shipped)
 
-- Large/slow dependencies: use small test doubles or offline fixtures in tests.
-- Secrets: never check secrets into this repo; add clear README placeholders and `.env.example` where appropriate.
-- Platform-specific code: include platform tags and a short note about how to test locally (e.g., `flutter run -d chrome` for web).
+Description
+---------------
+vendor0 is a service vendor booking management web-app that helps service vendors manage bookings, manage offered services, business information, and availability. It also attracts more customer bookings by automatically generating a public customer booking form through reserving a unique URL slug.
+
+Features
+---------------
+- Service vendor business profile management (name, contact, services)
+- Unique public slug reservation and ownership for vendor pages
+- Vendor booking & availability management (CRUD for availability rules)
+- Public customer booking form accessed via vendor URL slug
+- Server-mediated booking creation to protect Firestore rules
+
+## Portfolio Structure
+
+The repository is organized as follows:
+
+- `projects/` — all individual project folders live here.
+- `shared/` — project shared resources, documentation, and architecture patterns.
+- `readme.md` — this file.
+
+## Project Folder Structure
+
+All projects follow this shared folder structure: [Project Folder Structure](shared/project_folder_structure.md)
+
+## Architecture Overview
+
+All projects follow these shared app architecture standard patterns and practices: [App Architecture Overview](shared/architecture_patterns.md)
 

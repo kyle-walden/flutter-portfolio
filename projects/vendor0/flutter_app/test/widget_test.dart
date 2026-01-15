@@ -1,0 +1,1 @@
+// stubbed: load app and verify vendor portal loads

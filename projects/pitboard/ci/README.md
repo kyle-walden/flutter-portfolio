@@ -1,22 +1,31 @@
-CI for projects/pitboard
-=======================
 
-This folder contains CI/CD examples and helper scripts used to demonstrate a realistic mobile CI setup for the `Pitboard` showcase project. All scripts are intentionally redacted of secrets.
+# CI / CD
 
-What lives here
----------------
-- `xcode-cloud/` - Example pre/post Xcode Cloud build scripts adapted (and redacted) from the original Pitboard project. These are intended to be pasted into Xcode Cloud's Pre-build and Post-build script phases or used locally for testing.
-- `github-actions/` - Example GitHub Actions workflows for Android and iOS continuous-integration (CI) and release (CD) pipelines. These workflows are adapted (and redacted) from the original Pitboard project.
+## Purpose
 
-Files of interest
------------------
-- `xcode-cloud/ci_pre_xcodebuild.sh` - Pre-build script: installs Flutter tools, runs `flutter pub get`, runs CocoaPods install (with retry), and performs other setup steps required before `xcodebuild` runs. This script is an example only; in Xcode Cloud you should configure environment variables and secret access through the Xcode Cloud UI.
-- `xcode-cloud/ci_post_xcodebuild.sh` - Post-build script: collects `.xcresult`, uploads or archives logs/artifacts, and performs cleanup steps. It is intentionally generic and omits any secret upload logic.
-- `github-actions/android_ci.yml` — Android continuous-integration: checks out code, sets up JDK and Flutter on an Ubuntu runner, runs `flutter pub get`, `flutter analyze`, `flutter test`, builds a debug APK and a release AAB, and uploads build artifacts.
-- `github-actions/android_release.yml` — Android release: triggered by tag or manual dispatch; builds an obfuscated release App Bundle (AAB) and uploads the artifact. A placeholder step shows where to hook a Fastlane or Play Store publish step (disabled by default).
-- `github-actions/ios_ci.yml` — iOS continuous-integration: runs on `macos-latest`, installs CocoaPods, runs `flutter pub get`, analyzes, tests, builds an IPA, and uploads artifacts.
-- `github-actions/ios_release.yml` — iOS release: triggered by tag or manual dispatch; builds a release IPA and uploads the artifact. A placeholder step shows where to wire Fastlane / App Store Connect uploads (disabled by default).
+Ensure consistent quality gates and reliable delivery of the Pitboard Flutter app and its backend components by running builds, tests, and automated release pipelines. Provide reproducible artifacts for QA and controlled production releases.
 
-Secrets and environment variables
----------------------------------
-Secrets are used in GitHub Secrets, Xcode Cloud environment variables, or other secure secret stores. 
+## Pipelines
+- GitHub Actions:
+	- PR / push CI — static analysis, unit & widget tests, build artifacts for web and Android.
+	- Release workflows — build Android App Bundle, produce iOS artifacts (when run in CI) and publish artifacts to internal distribution channels.
+- Xcode Cloud:
+	- iOS archives, integration tests, TestFlight distribution and optional App Store submission automation.
+
+## What Runs Automatically
+- Static analysis and linting (`flutter analyze`, analyzer rules).
+- Unit and widget tests (`flutter test`).
+- Build artifacts: Android AAB, iOS archive (via Xcode Cloud), and web builds for hosting.
+- Optional smoke/integration tests against staging backends.
+
+## Branch Strategy
+- `main` — production-ready; merges here do not trigger release pipelines and distribution.
+
+## Delivery Flow
+1. Open Xcode Cloud
+2. Manually trigger a build, pulls from `main` branch - runs pre-build script, `xcodebuild`, post-build script (ci/xcode-cloud/)
+3. Produces an iOS archive and uploads to TestFlight for internal distribution
+3. Deploy from App Store Connect to production when ready.
+
+## Notes
+- Store service accounts and tokens must be kept in secrets (GitHub Secrets / App Store Connect keys / Google Play credentials). Never commit keys.
