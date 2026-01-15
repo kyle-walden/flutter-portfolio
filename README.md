@@ -23,7 +23,6 @@ The purpose of this portfolio is to demonstrate:
 
 All projects in this repository were designed, implemented, and maintained by me as a solo developer.
 
-
 ## Quick Index
 - [Tech Stack](#tech-stack)
 - [Projects](#projects)

@@ -1,4 +1,4 @@
-# Pitboard
+# Pitboard Flutter App
 
 ## Overview
 Pitboard is a shipped mobile application for iOS and Android that records motocross sessions using GPS and on-device telemetry, aggregates performance metrics, and provides post-session analysis to help riders evaluate and improve riding performance.
