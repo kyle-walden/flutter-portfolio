@@ -1,4 +1,4 @@
-# Architecture Patter
+# Architecture Patterns
 This document summarizes the recurring architecture patterns used across the `projects/` apps (for example `projects/pitboard` and `projects/vendor0`).
 
 Goal: provide a concise reference of shape, responsibilities, and data flows so reviewers and contributors can quickly understand how features, state, services, and the backend are organized.
@@ -103,7 +103,7 @@ Notes:
 
 - Anti-patterns to avoid
 	- Calling external APIs directly from UI widgets.
-	- Spreading SQL/Firestore query logic across UI or multiple providers.
+	- Spreading Firestore query logic across UI or multiple providers.
 	- Committing secrets or environment-specific configs.
 
 ## Where to look for examples
@@ -113,4 +113,4 @@ Notes:
 
 ---
 
-This file should remain a short, actionable reference. For feature-level details, open the corresponding `lib/features/<feature>/README.md` (if present) inside each project.
+For feature-level details, corresponding `lib/features/<feature>/README.md` are created (if present) inside each project.
