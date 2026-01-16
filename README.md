@@ -14,8 +14,8 @@ This monorepo represents production-level portfolio work by a junior–mid Flutt
 
 ## Quick Index
 - [Competencies Demonstrated](#competencies-demonstrated)
-- [Tech Stack](#tech-stack)
 - [Projects](#projects)
+- [Tech Stack](#tech-stack)
 - [Portfolio Structure](#portfolio-structure)
 - [Project Folder Structure](#project-folder-structure)
 - [Architecture Overview](#architecture-overview)
@@ -27,7 +27,7 @@ Concept: Moving beyond "making it work" to "designing it to last" across any pla
 
 Goal: A focus on clean, scalable system design rather than just syntax. This involves selecting folder structures, state management patterns, and data flows that prevent technical debt before it starts. I leverage Flutter’s unified codebase as a strategic asset—concentrating architectural effort on a single, robust system rather than diluting resources across fragmented native repositories. I use AI tools/agents to generate code, allowing me to focus on robust architectural design patterns that ensure maintainability and scalability.
 
-**Reference**: [Architecture Patterns](shared/architecture_patterns.md) documenting architectural patterns used across projects, and [Folder Structure](shared/project_folder_structure.md) for typical project folder mappings.
+**Reference**: [Architecture Patterns](shared/architecture_patterns.md) used across projects, and [Folder Structure](shared/project_folder_structure.md) for typical project folder mappings.
 
 ### 2. Rationales, tradeoffs and edge cases for selecting a tech stack and making architecture decisions
 Concept: A "decision log" mindset, proving key technical decisions and tradeoffs by documenting the "why" not just the "how".
