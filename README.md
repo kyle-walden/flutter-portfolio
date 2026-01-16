@@ -58,21 +58,17 @@ Goal: Integrating feedback loops (analytics, logging, user metrics) to validate 
 **Reference**: Product-user fit analytics framework documentation: [Pitboard product-user fit analytics framework](projects/pitboard/README.md#analytics), [vendor0 product-user fit analytics framework](projects/vendor0/README.md#analytics); Firebase analytics integration in projects: [Pitboard Analytics](projects/pitboard/flutter_app/lib/core/services/analytics_service.dart), [vendor0 Analytics](projects/vendor0/flutter_app/lib/core/services/analytics_service.dart)
 
 
-## Tech Stack
-Project specific - rationale provided. Refer to project READMEs for details or project overviews below for high-level stacks.
-
-
 ## Projects
 ### [Pitboard](projects/pitboard)
+
 Status: Production (shipped)
+
 High-level stack: Flutter (Dart), Firebase (Firestore, Auth, Cloud Functions), Mapbox, Geolocator, platform telemetry channels (accelerometer, gyroscope)
 
-Description
----------------
+#### Description
 Pitboard is a shipped mobile application for iOS (Android in progress) that records motocross rides/sessions using GPS and on-device telemetry, aggregates laps and performance metrics, and provides post-session analysis to help riders evaluate and improve riding performance.
 
-High-level Features
----------------
+#### High-level Features
 - Session recording: high-frequency (1-10hz) GPS and on-device telemetry capture (accelerometers, gyroscopes) for lap and section detection
 - Post-ride analysis: backend session data aggregation UI visualisations (sections, metrics, statistics, ride heatmap visualisations)
 - Offline-first session data storage with local persistence and background cloud-sync 
@@ -81,20 +77,24 @@ High-level Features
 - Google analytics integrations
 
 ### [vendor0](projects/vendor0)
+
 Status: Production (shipped)
+
 High-level stack: Flutter (Dart), Flask (Python), Firebase (Firestore, Auth, Hosting)
 
-Description
----------------
+#### Description
 vendor0 is a service vendor booking management web-app that helps service vendors manage bookings, manage offered services, business information, and availability. It also attracts customer bookings by automatically generating a public customer booking form through reserving a unique URL slug.
 
-Features
----------------
+#### High-level Features
 - Service vendor business profile management (name, contact, services)
 - Unique public URL slug reservation
 - Public customer service booking form accessed via service vendor's unqiue URL slug
 - Vendor service, booking and availability management 
 - Flask server-mediated booking creation and slug-reservation to protect IP and prevent abuse
+
+
+## Tech Stack
+Project specific - rationale provided. Refer to project READMEs for details or project overviews below for high-level stacks.
 
 
 ## Portfolio Structure
