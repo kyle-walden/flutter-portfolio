@@ -34,7 +34,7 @@ Concept: A "decision log" mindset, proving key technical decisions and tradeoffs
 
 Goal: The ability to evaluate an architectual decision or technical stack solution based on business (budget, time, user needs) and technical constraints rather than hype. It involves identifying edge cases early and accepting specific downsides (trade-offs) to achieve a greater goal. For example, 'why choose Firebase over flask?' or 'why use Provider over Riverpod?'. I document these rationales, trade-offs, and edge cases in project READMEs to demonstrate thoughtful decision-making.
 
-**Reference**: "Trade-offs" section in projects' README: [Pitboard](projects/pitboard/README.md#Tradeoffs / Decisions / Edge Cases), [vendor0](projects/vendor0/README.md#Tradeoffs / Decisions / Edge Cases)
+**Reference**: "Trade-offs" section in project level README: [Pitboard](projects/pitboard/README.md#Tradeoffs / Decisions / Edge Cases), [vendor0](projects/vendor0/README.md#Tradeoffs / Decisions / Edge Cases)
 
 ### 3. End-to-End / Backend Awareness
 Concept: Demonstrate the full lifecycle of data without over-claiming "Full Stack" mastery.
@@ -43,12 +43,12 @@ Goal: A holistic understanding of how code interacts with backend ecosystems thr
 
 **Reference**: 'backend' folder in project files showing server-side logic and integrations: [Pitboard Backend](projects/pitboard/backend), [vendor0 Backend](projects/vendor0/backend)
 
-### 4. AI Auditing & Quality Engineering
+### 4. AI Auditing, Quality Engineering, Testing
 Concept: Shifting from "Code Writer" to "Code Reviewer", "Bug Hunter", and "Prompt Engineer".
 
-Goal: Recognizing that while AI increases coding speed, it also increases bug velocity. This competency focuses on implementing defensive infrastructure—CI/CD pipelines, automated testing, and strict linting—to catch logic errors and hallucinations that AI introduces. Also, admit using AI tools for code generation but emphasize importance of prompt strategy to always stay true to the set architecture and rationales/tradeoffs/edge cases.
+Goal: Recognizing that while AI increases coding speed, it also increases bug velocity. This competency focuses on implementing defensive infrastructure—CI/CD pipelines, automated testing, and strict linting—to catch logic errors and hallucinations that AI introduces. Also, recognise using AI tools for code generation but emphasize importance of prompt strategy to always stay true to the set architecture and rationales/tradeoffs/edge cases.
 
-**Reference**: A "Testing Strategy" section in project READMEs, CI project folders to demonstrate continuos testing and building, feature-level, app-level and backend-level unit testing, "Prompt strategy" notes in project READMEs.
+**Reference**: A [testing strategy](/flutter-portfolio/shared/testing_strategies.md) shared across projects, `/ci` project folders to demonstrate continuous testing and building
 
 ### 5. Impact Analytics (Data-Driven Development) & Product Engineering
 Concept: Product-user fit and feature implementation is driven by measurable impact, not just "building features".
