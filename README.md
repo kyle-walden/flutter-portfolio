@@ -22,35 +22,35 @@ This monorepo represents production-level portfolio work by a junior–mid Flutt
 
 
 ## Competencies Demonstrated
-#### 1. Intentional Architecture
+### 1. Intentional Architecture
 Concept: Moving beyond "making it work" to "designing it to last" across any platform.
 
 Goal: A focus on clean, scalable system design rather than just syntax. This involves selecting folder structures, state management patterns, and data flows that prevent technical debt before it starts. I leverage Flutter’s unified codebase as a strategic asset—concentrating architectural effort on a single, robust system rather than diluting resources across fragmented native repositories. I use AI tools/agents to generate code, allowing me to focus on robust architectural design patterns that ensure maintainability and scalability.
 
 **Reference**: [Architecture Patterns](shared/architecture_patterns.md) documenting architectural patterns used across projects, and [Folder Structure](shared/project_folder_structure.md) for typical project folder mappings.
 
-#### 2. Rationales, tradeoffs and edge cases for selecting a tech stack and making architecture decisions
+### 2. Rationales, tradeoffs and edge cases for selecting a tech stack and making architecture decisions
 Concept: A "decision log" mindset, proving key technical decisions and tradeoffs by documenting the "why" not just the "how".
 
 Goal: The ability to evaluate an architectual decision or technical stack solution based on business (budget, time, user needs) and technical constraints rather than hype. It involves identifying edge cases early and accepting specific downsides (trade-offs) to achieve a greater goal. For example, 'why choose Firebase over flask?' or 'why use Provider over Riverpod?'. I document these rationales, trade-offs, and edge cases in project READMEs to demonstrate thoughtful decision-making.
 
 **Reference**: "Trade-offs" section in projects' README: [Pitboard](projects/pitboard/README.md#Tradeoffs / Decisions / Edge Cases), [vendor0](projects/vendor0/README.md#Tradeoffs / Decisions / Edge Cases)
 
-#### 3. End-to-End / Backend Awareness
+### 3. End-to-End / Backend Awareness
 Concept: Demonstrate the full lifecycle of data without over-claiming "Full Stack" mastery.
 
 Goal: A holistic understanding of how code interacts with backend ecosystems through functions and APIs. I realise this competency is not comprehensive - data is not just consumed by human UIs anymore, there is now scope for AI Agents and LLMs to consume and act on data. However, I focus on demonstrating awareness of server-side logic, data flows, and integrations to build robust front-end systems that align with backend capabilities.
 
 **Reference**: 'backend' folder in project files showing server-side logic and integrations: [Pitboard Backend](projects/pitboard/backend), [vendor0 Backend](projects/vendor0/backend)
 
-#### 4. AI Auditing & Quality Engineering
+### 4. AI Auditing & Quality Engineering
 Concept: Shifting from "Code Writer" to "Code Reviewer", "Bug Hunter", and "Prompt Engineer".
 
 Goal: Recognizing that while AI increases coding speed, it also increases bug velocity. This competency focuses on implementing defensive infrastructure—CI/CD pipelines, automated testing, and strict linting—to catch logic errors and hallucinations that AI introduces. Also, admit using AI tools for code generation but emphasize importance of prompt strategy to always stay true to the set architecture and rationales/tradeoffs/edge cases.
 
 **Reference**: A "Testing Strategy" section in project READMEs, CI project folders to demonstrate continuos testing and building, feature-level, app-level and backend-level unit testing, "Prompt strategy" notes in project READMEs.
 
-#### 5. Impact Analytics (Data-Driven Development) & Product Engineering
+### 5. Impact Analytics (Data-Driven Development) & Product Engineering
 Concept: Product-user fit and feature implementation is driven by measurable impact, not just "building features".
 
 Goal: Integrating feedback loops (analytics, logging, user metrics) to validate product-user fit and features actually solve the problem. It shifts the narrative from "I built a feature" to "I improved a metric". This competency involves documenting analytics frameworks at product-user fit level and feature optimisation level.
