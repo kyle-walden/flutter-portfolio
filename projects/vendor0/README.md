@@ -50,7 +50,7 @@ vendor0 is a service vendor booking management platform that helps service vendo
 
 -
 
-## Tradeoffs / Decisions
+## Tradeoffs / Decisions / Edge Cases
 
 -
 
@@ -62,6 +62,10 @@ Refer to each README.md in the folders for more details and further structure.
 - `ci/` — CI/CD templates and GitHub Actions workflows (build/test, deploy)
 - `flutter_app/` — Flutter Web client (feature-first architecture: `lib/app`, `lib/core`, `lib/features`, `lib/shared_widgets`)
 - `screenshots/` — curated UI screenshots for portfolio presentation
+
+## Analytics
+
+Example of product-user fit analytics framework documentation. 
 
 ## Notes
 

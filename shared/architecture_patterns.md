@@ -7,6 +7,16 @@ Refer to concrete examples in:
 - `projects/pitboard/flutter_app/README.md`
 - `projects/vendor0/flutter_app/README.md`
 
+## Quick Index
+- [Core principles](#core-principles)
+- [Folder mapping (typical)](#folder-mapping-typical)
+- [State management](#state-management)
+- [Data flow (UI → backend)](#data-flow-ui--backend)
+- [Offline-first and sync patterns (project-specific)](#offline-first-and-sync-patterns-project-specific)
+- [Repositories and services](#repositories-and-services)
+- [Backend boundaries](#backend-boundaries)
+- [S]
+
 ## Core principles
 
 - Feature-first organization: keep models, state, views, and tests colocated under `lib/features/<feature>/` for discoverability and small change surfaces.
@@ -91,7 +101,7 @@ Notes:
 
 ## CI / CD
 
-- CI should run linting, unit tests, and widget tests. For projects with backend functions, CI runs build/test and optional deploy steps to staging via GitHub Actions.
+- CI runs linting, unit tests, and widget tests. For projects with backend functions, CI runs build/test and optional deploy steps to staging via GitHub Actions.
 - Keep deploy steps minimal and environment-driven: use runtime config or secret manager; do not store secrets in the repo.
 
 ## Patterns & anti-patterns (quick)
@@ -114,3 +124,4 @@ Notes:
 ---
 
 For feature-level details, corresponding `lib/features/<feature>/README.md` are created (if present) inside each project.
+
