@@ -72,7 +72,8 @@ This repository is an abstracted/redacted extraction of the original project int
   - Constraint: High-frequency GPS and telemetry sampling generated large session payloads, requiring reliable remote upload without blocking the UI or degrading in-session performance.  
   - Resolution: Designed a scalable data model and staged upload pipeline that batches and streams session data efficiently, keeping capture responsive while ensuring complete and consistent remote persistence.
 
-## Tradeoffs / Decisions / Edge Cases
+## Rationales 
+Tradeoffs / Decisions / Edge Cases
 
 -
 

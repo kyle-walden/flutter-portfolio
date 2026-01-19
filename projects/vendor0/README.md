@@ -50,7 +50,8 @@ vendor0 is a service vendor booking management platform that helps service vendo
 
 -
 
-## Tradeoffs / Decisions / Edge Cases
+## Rationales
+Tradeoffs / Decisions / Edge Cases
 
 -
 
