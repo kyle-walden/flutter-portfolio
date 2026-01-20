@@ -99,7 +99,7 @@ Pitboard is a mobile application for iOS (Android in progress) that records moto
 - Offline-first session data storage with local persistence and background cloud-sync 
 - Batched/staged uploads for large session payloads (+2MB) to cloud storage
 - User authentication, profiles, and per-user data scoping
-- Google analytics integrations
+- Analytics integrations for product-user fit
 
 ### [vendor0](projects/vendor0)
 
