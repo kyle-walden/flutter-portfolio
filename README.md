@@ -22,6 +22,15 @@ This monorepo represents production-level portfolio work by a junior–mid Flutt
 
 
 ## Competencies Demonstrated
+I have explicitly identified five key competencies that I aim to demonstrate through projects in this monorepo. Each competency includes specific goals and references to documentation and implementations in project folders. 
+
+Competency Index:
+1. [Intentional Architecture](#1-intentional-architecture)
+2. [Rationales, Tradeoffs, and Edge Cases](#2-rationales-tradeoffs-and-edge-cases)
+3. [End-to-End / Backend Awareness](#3-end-to-end--backend-awareness)
+4. [AI Auditing and QA, Quality Engineering, Testing](#4-ai-auditing-and-qa-quality-engineering-testing)
+5. [Impact Analytics (Data-Driven Development) & Product Engineering](#5-impact-analytics-data-driven-development--product-engineering)
+
 ### 1. Intentional Architecture
 Focus on architectual patterns and adopt a systematical approach to scaffolding apps.
 
