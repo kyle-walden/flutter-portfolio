@@ -59,7 +59,7 @@ Goals:
 - Future: Recognise using AI tools for code generation but emphasize importance of prompt strategy to always stay true to the set architecture and rationales/tradeoffs/edge cases (TODO: /shared AI prompt strategy).
 
 **Reference**: 
-- A [testing strategy](/flutter-portfolio/shared/testing_strategies.md) shared across projects
+- A [testing strategy](/shared/testing_strategies.md) shared across projects
 - `/ci` project folders to demonstrate continuous testing and building
 
 ### 5. Impact Analytics (Data-Driven Development) & Product Engineering
