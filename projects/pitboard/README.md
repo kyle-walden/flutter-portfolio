@@ -59,23 +59,56 @@ This repository is an abstracted/redacted extraction of the original project int
 	- Functions project uses TypeScript for backend unit tests
 
 ## Architecture Overview
+
 - Refer to portfolio-level shared architecture documentation for Flutter projects - all standard patterns and practices apply.
 
 ## Technical Challenges
+
 - iOS native dependency compatibility  
   - Constraint: Certain transitive native dependencies failed to compile under Clang during iOS builds.  
   - Resolution: Pinned compatible versions, and adjusted Xcode build settings to restore deterministic builds across CI and local environments.
+
 - Offline-first data sync with Firestore  
   - Constraint: Riders frequently operate with intermittent connectivity, requiring local session capture without data loss.  
   - Resolution: Implemented a write-behind local cache with explicit conflict resolution rules between local state and remote Firestore documents.
+
 - Data storage and architecture scalability  
   - Constraint: High-frequency GPS and telemetry sampling generated large session payloads, requiring reliable remote upload without blocking the UI or degrading in-session performance.  
   - Resolution: Designed a scalable data model and staged upload pipeline that batches and streams session data efficiently, keeping capture responsive while ensuring complete and consistent remote persistence.
 
 ## Rationales 
+
 Tradeoffs / Decisions / Edge Cases
 
--
+- Provider for state management
+	- Why: low ceremony, fast iteration, and clear per-feature scoping fit a small core team and a feature-first repo layout. `ChangeNotifier` providers map naturally to UI rebuilds and are easy to unit-test when business logic is pushed into services/repositories.
+	- Trade-offs: less formal composition and dependency isolation than Riverpod/Bloc; could require refactor as the app grows.
+	- Edge cases / mitigation: keep heavy logic in `core/services` and repositories to make swapping state layers later straightforward.
+
+- Mapbox chosen over Google Maps
+	- Why: vector styling, offline tile capabilities, and expressive map styling made Mapbox a better fit for high-frequency telemetry visualisations and custom overlays (heatmaps, telemetry traces). They also offer a more generous free tier for map loads.
+	- Trade-offs: Mapbox has different licensing/pricing and a larger native SDK surface than Google Maps; there's additional integration work for some platform features.
+	- Edge cases / mitigation: evaluate billing and map tile strategies for heavy usage; isolate mapping code behind a `mapbox_service` so swapping providers is feasible.
+
+- Hive + offline-first write-behind
+	- Why: Hive delivers compact, fast local persistence ideal for high-frequency GPS/telemetry sampling. A local write-behind queue improves UX by making the client resilient to intermittent connectivity.
+	- Trade-offs: introduces sync complexity (retries, ordering, conflict metadata) and requires careful schema/versioning.
+	- Edge cases / mitigation: keep conflict resolution server-authoritative and expose sync status to the UI; implement incremental staged uploads for very large session payloads.
+
+- Firebase serverless backend (Firestore + Cloud Functions)
+	- Why: rapid development, low-ops hosting, and native integration with Firebase Auth and Storage made Firestore + Functions a pragmatic backend choice for a small ops footprint.
+	- Trade-offs: platform lock-in, cold-starts, and limits for CPU-bound long-running jobs.
+	- Edge cases / mitigation: isolate heavier computation (e.g., session aggregation) behind Functions and consider Cloud Run for CPU-heavy or long-running workloads.
+
+- Serverless Functions (Firebase) vs. traditional servers (Flask/Django)
+	- Why: serverless Functions reduce operational overhead (no server to manage), scale automatically with load, and provide tight integration with Firebase services used by the app.
+	- Trade-offs: less control over runtime environment, vendor lock-in, potential cold-start latency.
+	- Edge cases / mitigation: use managed containers (Cloud Run) or a small Flask/Django service for long-running or CPU-bound jobs; structure backend code so business logic can be extracted into a portable module if migration is needed.
+
+- Analytics & privacy handling
+	- Why: product analytics (user flows, session metrics) are required for product evaluation and iteration; Firebase Analytics integrates with the existing stack and CI flows.
+	- Trade-offs: caution of privacy/PII exposure.
+	- Edge cases / mitigation: anonymize identifiers, provide opt-out, sample high-volume events, and avoid logging raw telemetry in unredacted logs.
 
 ## Repository Structure
 
@@ -89,7 +122,7 @@ Refer to each README.md in the folders for more details and further structure.
 
 ## Analytics
 
-Example of product-user fit analytics framework documentation. 
+TODO: Example of product-user fit analytics framework documentation. 
 
 ## Notes
 - Security / abstraction disclaimer:

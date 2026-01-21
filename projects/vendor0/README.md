@@ -44,16 +44,39 @@ vendor0 is a service vendor booking management platform that helps service vendo
 
 ## Architecture Overview
 
-- Refer to portfolio-level shared architecture documentation for Flutter projects - all standard patterns and practices apply.image builds to Cloud Run.
+- Refer to portfolio-level shared architecture documentation for Flutter projects - all standard patterns and practices apply.
 
 ## Technical Challenges
 
--
+- Slug reservation atomicity and concurrency
+	- Problem: multiple vendors may attempt to reserve the same slug concurrently, causing race conditions and ownership disputes.
+	- Approach: enforce uniqueness server-side using transactions or conditional writes, return idempotent responses, and add rate-limiting and audit logging to surface contention.
+
+- Secure server-mediated booking flow
+	- Problem: public booking endpoints must accept unauthenticated requests (customers) while enforcing vendor ownership and preventing spoofing.
+	- Approach: validate payloads server-side, require server-to-server verification for owner-scoped operations, use idempotency keys for retries, and log audit trails for booking creation.
 
 ## Rationales
 Tradeoffs / Decisions / Edge Cases
 
--
+- Provider for state management
+	- Why: `provider` (ChangeNotifier) keeps the web client simple and fast to iterate — minimal boilerplate and straightforward provider overrides for testing and DI.
+	- Trade-offs: less structured than alternatives (Riverpod/Bloc) for very large apps; acceptable here because feature logic is kept in repositories and services.
+
+- Flask (Cloud Run) vs serverless Functions
+	- Why: a thin Flask API deployed on Cloud Run provides predictable runtime behavior, easier local debugging, and explicit control over HTTP semantics for slug reservation and booking workflows.
+	- Trade-offs: higher ops responsibility than pure serverless Functions and additional container CI/CD complexity; Cloud Run was chosen to balance control and manageability for third-party integrations.
+	- Edge cases / mitigation: keep request validation and ownership logic server-side; use container image pinning and health checks to reduce drift.
+
+- Firestore as primary datastore
+	- Why: Firestore's real-time capabilities and existing Firebase Auth integration reduced integration work and aligned with other portfolio projects.
+	- Trade-offs: query patterns and indexing require design attention; avoid expensive queries on large collections by modeling data for access patterns.
+	- Edge cases / mitigation: design slug -> vendor lookups with indexed collections and consider a caching layer for hot slug resolution.
+
+- Server-mediated slug reservation & booking
+	- Why: ownership and reservation of public slugs is enforced server-side to prevent spoofing, abuse, and to centralize business rules.
+	- Trade-offs: requires additional backend endpoints and auth checks but simplifies client logic and Firestore rules.
+	- Edge cases / mitigation: validate idempotency and concurrency on reservation endpoints; implement rate-limiting and audit logs for ownership operations.
 
 ## Repository Structure
 
@@ -66,7 +89,7 @@ Refer to each README.md in the folders for more details and further structure.
 
 ## Analytics
 
-Example of product-user fit analytics framework documentation. 
+TODO: Example of product-user fit analytics framework documentation. 
 
 ## Notes
 
