@@ -114,45 +114,188 @@ print_success "Example feature 'home' created"
 # Create core service templates
 print_header "Creating Core Service Templates"
 
-# Firebase Service
-cat > lib/core/services/firebase_service.dart << 'EOF'
-import 'package:cloud_firestore/cloud_firestore.dart';
+# Firebase Auth Service
+cat > lib/core/services/firebase_auth_service.dart << 'EOF'
 import 'package:firebase_auth/firebase_auth.dart';
 
-/// Thin wrapper around Firebase services.
-/// Provides static accessors to Firebase instances.
-class FirebaseService {
-  FirebaseService._(); // Private constructor - use static members
+/// Thin wrapper around Firebase Authentication.
+class FirebaseAuthService {
+  FirebaseAuthService._(); // Private constructor
 
   static FirebaseAuth get auth => FirebaseAuth.instance;
-  static FirebaseFirestore get db => FirebaseFirestore.instance;
   static User? get currentUser => auth.currentUser;
-
-  /// Initialize Firebase (call in main.dart)
-  static Future<void> initialize() async {
-    // Firebase.initializeApp happens in main.dart
-    // This is a placeholder for any additional Firebase setup
-  }
+  static Stream<User?> get authStateChanges => auth.authStateChanges();
 
   /// Force reload current user from backend
   static Future<void> reloadUser() async {
     final user = currentUser;
     if (user != null) await user.reload();
   }
+
+  /// Sign in with email and password
+  static Future<UserCredential> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    return await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  /// Sign up with email and password
+  static Future<UserCredential> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    return await auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  /// Sign out
+  static Future<void> signOut() async {
+    await auth.signOut();
+  }
 }
 EOF
-print_success "Created firebase_service.dart"
+print_success "Created firebase_auth_service.dart"
 
-# Local Storage Service
-cat > lib/core/services/local_storage_service.dart << 'EOF'
-import 'dart:convert';
+# Firestore Service
+cat > lib/core/services/firestore_service.dart << 'EOF'
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+/// Thin wrapper around Cloud Firestore.
+class FirestoreService {
+  FirestoreService._(); // Private constructor
+
+  static FirebaseFirestore get db => FirebaseFirestore.instance;
+
+  /// Get a collection reference
+  static CollectionReference<Map<String, dynamic>> collection(String path) {
+    return db.collection(path);
+  }
+
+  /// Get a document reference
+  static DocumentReference<Map<String, dynamic>> doc(String path) {
+    return db.doc(path);
+  }
+
+  /// Batch write operations
+  static WriteBatch batch() {
+    return db.batch();
+  }
+
+  /// Run a transaction
+  static Future<T> runTransaction<T>(
+    TransactionHandler<T> transactionHandler, {
+    Duration timeout = const Duration(seconds: 30),
+  }) {
+    return db.runTransaction(transactionHandler, timeout: timeout);
+  }
+}
+EOF
+print_success "Created firestore_service.dart"
+
+# Firebase Storage Service
+cat > lib/core/services/firebase_storage_service.dart << 'EOF'
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+
+/// Thin wrapper around Firebase Storage.
+class FirebaseStorageService {
+  FirebaseStorageService._(); // Private constructor
+
+  static FirebaseStorage get storage => FirebaseStorage.instance;
+
+  /// Get a reference to a storage path
+  static Reference ref(String path) {
+    return storage.ref(path);
+  }
+
+  /// Upload a file
+  static Future<String> uploadFile({
+    required String path,
+    required File file,
+    Map<String, String>? metadata,
+  }) async {
+    final ref = storage.ref(path);
+    final uploadTask = await ref.putFile(
+      file,
+      metadata != null ? SettableMetadata(customMetadata: metadata) : null,
+    );
+    return await uploadTask.ref.getDownloadURL();
+  }
+
+  /// Delete a file
+  static Future<void> deleteFile(String path) async {
+    await storage.ref(path).delete();
+  }
+
+  /// Get download URL
+  static Future<String> getDownloadURL(String path) async {
+    return await storage.ref(path).getDownloadURL();
+  }
+}
+EOF
+print_success "Created firebase_storage_service.dart"
+
+# Firebase Analytics Service
+cat > lib/core/services/analytics_service.dart << 'EOF'
+import 'package:firebase_analytics/firebase_analytics.dart';
+
+/// Thin wrapper around Firebase Analytics.
+class AnalyticsService {
+  AnalyticsService._(); // Private constructor
+
+  static FirebaseAnalytics get analytics => FirebaseAnalytics.instance;
+
+  /// Log an event
+  static Future<void> logEvent({
+    required String name,
+    Map<String, Object?>? parameters,
+  }) async {
+    await analytics.logEvent(name: name, parameters: parameters);
+  }
+
+  /// Set user property
+  static Future<void> setUserProperty({
+    required String name,
+    required String value,
+  }) async {
+    await analytics.setUserProperty(name: name, value: value);
+  }
+
+  /// Set user ID
+  static Future<void> setUserId(String? id) async {
+    await analytics.setUserId(id: id);
+  }
+
+  /// Log screen view
+  static Future<void> logScreenView({
+    required String screenName,
+    String? screenClass,
+  }) async {
+    await analytics.logScreenView(
+      screenName: screenName,
+      screenClass: screenClass,
+    );
+  }
+}
+EOF
+print_success "Created analytics_service.dart"
+
+# Preferences Service (SharedPreferences for simple app preferences)
+cat > lib/core/services/preferences_service.dart << 'EOF'
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Thin wrapper around SharedPreferences for local persistence.
-class LocalStorageService {
+/// Service for simple app preferences using SharedPreferences.
+/// Use HiveService for complex data persistence.
+class PreferencesService {
   Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
 
-  // Generic read/write
+  // String preferences
   Future<String?> getString(String key) async {
     final prefs = await _prefs;
     return prefs.getString(key);
@@ -163,6 +306,51 @@ class LocalStorageService {
     await prefs.setString(key, value);
   }
 
+  // Boolean preferences
+  Future<bool> getBool(String key, {bool defaultValue = false}) async {
+    final prefs = await _prefs;
+    return prefs.getBool(key) ?? defaultValue;
+  }
+
+  Future<void> setBool(String key, bool value) async {
+    final prefs = await _prefs;
+    await prefs.setBool(key, value);
+  }
+
+  // Integer preferences
+  Future<int> getInt(String key, {int defaultValue = 0}) async {
+    final prefs = await _prefs;
+    return prefs.getInt(key) ?? defaultValue;
+  }
+
+  Future<void> setInt(String key, int value) async {
+    final prefs = await _prefs;
+    await prefs.setInt(key, value);
+  }
+
+  // Double preferences
+  Future<double> getDouble(String key, {double defaultValue = 0.0}) async {
+    final prefs = await _prefs;
+    return prefs.getDouble(key) ?? defaultValue;
+  }
+
+  Future<void> setDouble(String key, double value) async {
+    final prefs = await _prefs;
+    await prefs.setDouble(key, value);
+  }
+
+  // List of strings
+  Future<List<String>> getStringList(String key) async {
+    final prefs = await _prefs;
+    return prefs.getStringList(key) ?? [];
+  }
+
+  Future<void> setStringList(String key, List<String> value) async {
+    final prefs = await _prefs;
+    await prefs.setStringList(key, value);
+  }
+
+  // Remove and clear
   Future<void> remove(String key) async {
     final prefs = await _prefs;
     await prefs.remove(key);
@@ -173,31 +361,81 @@ class LocalStorageService {
     await prefs.clear();
   }
 
-  // Typed helpers for lists (JSON encoded)
-  Future<List<Map<String, dynamic>>> getList(String key) async {
-    final json = await getString(key);
-    if (json == null || json.isEmpty) return [];
-    final decoded = jsonDecode(json);
-    return (decoded as List).cast<Map<String, dynamic>>();
-  }
-
-  Future<void> setList(String key, List<Map<String, dynamic>> list) async {
-    await setString(key, jsonEncode(list));
-  }
-
-  // Typed helper for maps (JSON encoded)
-  Future<Map<String, dynamic>> getMap(String key) async {
-    final json = await getString(key);
-    if (json == null || json.isEmpty) return {};
-    return Map<String, dynamic>.from(jsonDecode(json));
-  }
-
-  Future<void> setMap(String key, Map<String, dynamic> map) async {
-    await setString(key, jsonEncode(map));
+  // Check if key exists
+  Future<bool> containsKey(String key) async {
+    final prefs = await _prefs;
+    return prefs.containsKey(key);
   }
 }
 EOF
-print_success "Created local_storage_service.dart"
+print_success "Created preferences_service.dart"
+
+# Hive Service (for local data persistence)
+cat > lib/core/services/hive_service.dart << 'EOF'
+import 'package:hive_flutter/hive_flutter.dart';
+
+/// Service for local data persistence using Hive.
+/// Use PreferencesService for simple app preferences.
+class HiveService {
+  HiveService._(); // Private constructor
+
+  static bool _initialized = false;
+
+  /// Initialize Hive (call once in main.dart before using)
+  static Future<void> initialize() async {
+    if (_initialized) return;
+    await Hive.initFlutter();
+    _initialized = true;
+  }
+
+  /// Open a box
+  static Future<Box<T>> openBox<T>(String name) async {
+    if (!_initialized) {
+      throw StateError('HiveService not initialized. Call HiveService.initialize() first.');
+    }
+    return await Hive.openBox<T>(name);
+  }
+
+  /// Get an already opened box
+  static Box<T> getBox<T>(String name) {
+    return Hive.box<T>(name);
+  }
+
+  /// Check if a box is open
+  static bool isBoxOpen(String name) {
+    return Hive.isBoxOpen(name);
+  }
+
+  /// Close a box
+  static Future<void> closeBox(String name) async {
+    if (isBoxOpen(name)) {
+      await Hive.box(name).close();
+    }
+  }
+
+  /// Delete a box from disk
+  static Future<void> deleteBox(String name) async {
+    if (isBoxOpen(name)) {
+      await Hive.box(name).deleteFromDisk();
+    } else {
+      await Hive.deleteBoxFromDisk(name);
+    }
+  }
+
+  /// Close all boxes
+  static Future<void> closeAll() async {
+    await Hive.close();
+  }
+
+  /// Register a type adapter
+  static void registerAdapter<T>(TypeAdapter<T> adapter, {int? typeId}) {
+    if (!Hive.isAdapterRegistered(adapter.typeId)) {
+      Hive.registerAdapter(adapter);
+    }
+  }
+}
+EOF
+print_success "Created hive_service.dart"
 
 # HTTP Service
 cat > lib/core/services/http_service.dart << 'EOF'
@@ -306,23 +544,75 @@ print_success "Created app_theme.dart"
 print_header "Creating Example Repository"
 
 cat > lib/features/home/repo/home_repository.dart << 'EOF'
-import '../../../core/services/local_storage_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../../../core/services/hive_service.dart';
+import '../../../core/services/firestore_service.dart';
+import '../../../core/services/firebase_auth_service.dart';
 
 /// Example repository demonstrating data orchestration.
 /// Repositories abstract data sources (local vs remote) and handle caching.
 class HomeRepository {
-  final LocalStorageService _localStorage;
+  static const String _boxName = 'home_data';
+  Box<Map>? _box;
 
-  HomeRepository(this._localStorage);
-
-  /// Example: Fetch data from local storage
-  Future<Map<String, dynamic>> fetchData() async {
-    return await _localStorage.getMap('home_data');
+  /// Initialize the repository (open Hive box)
+  Future<void> init() async {
+    if (!HiveService.isBoxOpen(_boxName)) {
+      _box = await HiveService.openBox<Map>(_boxName);
+    } else {
+      _box = HiveService.getBox<Map>(_boxName);
+    }
   }
 
-  /// Example: Save data to local storage
-  Future<void> saveData(Map<String, dynamic> data) async {
-    await _localStorage.setMap('home_data', data);
+  /// Example: Fetch data from local cache (Hive)
+  Future<Map<String, dynamic>?> fetchLocalData(String key) async {
+    if (_box == null) await init();
+    final data = _box!.get(key);
+    return data != null ? Map<String, dynamic>.from(data) : null;
+  }
+
+  /// Example: Save data to local cache (Hive)
+  Future<void> saveLocalData(String key, Map<String, dynamic> data) async {
+    if (_box == null) await init();
+    await _box!.put(key, data);
+  }
+
+  /// Example: Fetch data from Firestore (if authenticated)
+  Future<Map<String, dynamic>?> fetchRemoteData(String docId) async {
+    final user = FirebaseAuthService.currentUser;
+    if (user == null) return null;
+
+    final doc = await FirestoreService.collection('home_data')
+        .doc(docId)
+        .get();
+
+    return doc.exists ? doc.data() : null;
+  }
+
+  /// Example: Save data to Firestore (if authenticated)
+  Future<void> saveRemoteData(String docId, Map<String, dynamic> data) async {
+    final user = FirebaseAuthService.currentUser;
+    if (user == null) return;
+
+    await FirestoreService.collection('home_data')
+        .doc(docId)
+        .set(data);
+  }
+
+  /// Example: Sync local and remote data
+  Future<Map<String, dynamic>?> fetchData(String key) async {
+    // Try local first
+    final localData = await fetchLocalData(key);
+    if (localData != null) return localData;
+
+    // Fallback to remote if authenticated
+    final remoteData = await fetchRemoteData(key);
+    if (remoteData != null) {
+      // Cache it locally
+      await saveLocalData(key, remoteData);
+    }
+
+    return remoteData;
   }
 }
 EOF
@@ -435,15 +725,22 @@ cat > lib/main.dart << EOF
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/utils/app_theme.dart';
-import 'core/services/local_storage_service.dart';
+import 'core/services/hive_service.dart';
 import 'features/home/repo/home_repository.dart';
 import 'features/home/state/home_provider.dart';
 import 'features/home/view/home_screen.dart';
 
+// TODO: Uncomment when Firebase is configured
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // TODO: Initialize Firebase if needed
+  // Initialize Hive for local data persistence
+  await HiveService.initialize();
+  
+  // TODO: Initialize Firebase
   // await Firebase.initializeApp(
   //   options: DefaultFirebaseOptions.currentPlatform,
   // );
@@ -457,8 +754,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set up dependency injection
-    final localStorage = LocalStorageService();
-    final homeRepo = HomeRepository(localStorage);
+    final homeRepo = HomeRepository();
 
     return MultiProvider(
       providers: [
@@ -479,7 +775,7 @@ class MyApp extends StatelessWidget {
   }
 }
 EOF
-print_success "Updated main.dart with provider setup"
+print_success "Updated main.dart with Hive and provider setup"
 
 # Update pubspec.yaml with required dependencies
 print_header "Updating pubspec.yaml"
@@ -493,16 +789,21 @@ cat > pubspec_additions.yaml << 'EOF'
   # State management
   provider: ^6.1.0
   
-  # Backend services (uncomment as needed)
+  # Firebase services (uncomment when configured)
   # firebase_core: ^2.24.0
   # firebase_auth: ^4.16.0
   # cloud_firestore: ^4.14.0
+  # firebase_storage: ^11.6.0
   # firebase_analytics: ^10.8.0
   
   # HTTP client
   http: ^1.1.0
   
-  # Local storage
+  # Local data persistence (Hive)
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  
+  # Simple app preferences (SharedPreferences)
   shared_preferences: ^2.2.0
   
   # Utilities
