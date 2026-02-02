@@ -88,7 +88,7 @@ View (UI) → Provider (State) → Repository (Data) → Service (I/O) → Exter
 lib/
 ├── app/                # Bootstrap, routing, global providers
 ├── core/
-│   ├── services/       # Thin adapters (Firebase, HTTP, Storage)
+│   ├── services/       # Thin adapters (Firebase Auth/Firestore/Storage/Analytics, HTTP, Hive, Preferences)
 │   ├── utils/          # Helpers, theme, formatters
 │   └── config/         # Constants, environment
 ├── features/
@@ -138,8 +138,8 @@ lib/
 ### What Gets Generated
 
 - ✅ Complete folder structure (app, core, features, shared_widgets)
-- ✅ Thin service layer (Firebase, HTTP, LocalStorage)
-- ✅ Example feature with view/state/repo pattern
+- ✅ 7 thin service files (Firebase Auth, Firestore, Storage, Analytics, HTTP, Hive, Preferences)
+- ✅ Example feature with view/state/repo pattern showing Hive+Firestore sync
 - ✅ Provider-based dependency injection
 - ✅ Material 3 theme configuration
 - ✅ Architecture documentation
@@ -149,7 +149,8 @@ lib/
 
 - `provider` - State management
 - `http` - HTTP client
-- `shared_preferences` - Local storage
+- `hive` & `hive_flutter` - Local persistence for complex data
+- `shared_preferences` - Simple settings storage
 - `intl` - Internationalization
 - Optional: Firebase packages (commented out)
 

@@ -22,7 +22,7 @@ my_app_name/
 │   │   ├── providers/          # Global providers
 │   │   └── routing/            # Route configuration
 │   ├── core/
-│   │   ├── services/           # FirebaseService, HttpService, LocalStorageService
+│   │   ├── services/           # Firebase (auth, firestore, storage, analytics), HTTP, Hive, Preferences
 │   │   ├── utils/              # AppTheme, helpers
 │   │   ├── config/             # Constants, environment
 │   │   └── models/             # Shared models
@@ -42,8 +42,12 @@ my_app_name/
 ### Generated Files
 
 #### Core Services
-- **firebase_service.dart** - Thin Firebase wrapper (~25 lines)
-- **local_storage_service.dart** - SharedPreferences abstraction (~90 lines)
+- **firebase_auth_service.dart** - Authentication wrapper (~50 lines)
+- **firestore_service.dart** - Firestore operations (~35 lines)
+- **firebase_storage_service.dart** - Cloud storage (~40 lines)
+- **analytics_service.dart** - Event tracking (~35 lines)
+- **hive_service.dart** - Local persistence for complex data (~65 lines)
+- **preferences_service.dart** - SharedPreferences for settings (~75 lines)
 - **http_service.dart** - HTTP client wrapper (~110 lines)
 - **app_theme.dart** - Material 3 theme configuration
 
@@ -66,13 +70,17 @@ my_app_name/
 dependencies:
   provider: ^6.1.0              # State management
   http: ^1.1.0                  # HTTP client
-  shared_preferences: ^2.2.0    # Local storage
+  shared_preferences: ^2.2.0    # Simple settings
+  hive: ^2.2.3                  # Local persistence
+  hive_flutter: ^1.1.0          # Hive Flutter integration
   intl: ^0.18.0                 # Internationalization
 
 # Commented out (uncomment as needed):
 # firebase_core: ^2.24.0
 # firebase_auth: ^4.16.0
 # cloud_firestore: ^4.14.0
+# firebase_analytics: ^10.8.0
+# firebase_storage: ^11.6.0
 ```
 
 ## Usage Examples
@@ -109,14 +117,29 @@ mkdir -p booking/{view,state,repo,models,widgets,tests}
 
 # Create files
 cat > booking/repo/booking_repository.dart << 'EOF'
-import '../../../core/services/local_storage_service.dart';
+import '../../../core/services/hive_service.dart';
+import '../../../core/services/firestore_service.dart';
+import '../models/booking.dart';
 
 class BookingRepository {
-  final LocalStorageService _storage;
-  BookingRepository(this._storage);
+  final HiveService _hiveService;
+  final FirestoreService _firestoreService;
   
-  Future<List<Map<String, dynamic>>> fetchBookings() async {
-    return await _storage.getList('bookings');
+  BookingRepository(this._hiveService, this._firestoreService);
+  
+  Future<List<Booking>> fetchBookings() async {
+    // Cache-first strategy
+    var bookings = await _hiveService.getAll<Booking>('bookings');
+    
+    if (bookings.isEmpty) {
+      final snapshot = await _firestoreService.getCollection('bookings');
+      bookings = snapshot.docs
+          .map((doc) => Booking.fromJson(doc.data()))
+          .toList();
+      await _hiveService.saveAll('bookings', bookings);
+    }
+    
+    return bookings;
   }
 }
 EOF
@@ -186,14 +209,17 @@ View → Provider → Repository → Service → External System
 ### 4. Testability
 ```dart
 // Repository test (mock services)
-test('fetches bookings', () async {
-  final mockStorage = MockLocalStorageService();
-  when(mockStorage.getList('bookings')).thenReturn([]);
+test('fetches bookings from cache', () async {
+  final mockHive = MockHiveService();
+  final mockFirestore = MockFirestoreService();
+  when(mockHive.getAll<Booking>('bookings'))
+      .thenAnswer((_) async => [Booking(id: '1', title: 'Test')]);
   
-  final repo = BookingRepository(mockStorage);
+  final repo = BookingRepository(mockHive, mockFirestore);
   final result = await repo.fetchBookings();
   
-  expect(result, isEmpty);
+  expect(result, hasLength(1));
+  verifyNever(mockFirestore.getCollection(any));
 });
 
 // Provider test (mock repository)

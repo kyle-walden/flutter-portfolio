@@ -40,11 +40,15 @@ View (UI) → Provider (State) → Repository (Data) → Service (I/O)
 
 | File | Purpose | Lines |
 |------|---------|-------|
-| `core/services/firebase_service.dart` | Firebase wrapper | ~25 |
-| `core/services/local_storage_service.dart` | SharedPreferences | ~90 |
+| `core/services/firebase_auth_service.dart` | Firebase Auth wrapper | ~50 |
+| `core/services/firestore_service.dart` | Firestore wrapper | ~35 |
+| `core/services/firebase_storage_service.dart` | Storage wrapper | ~40 |
+| `core/services/analytics_service.dart` | Analytics wrapper | ~35 |
+| `core/services/preferences_service.dart` | App preferences (SharedPreferences) | ~75 |
+| `core/services/hive_service.dart` | Local data persistence (Hive) | ~65 |
 | `core/services/http_service.dart` | HTTP client | ~110 |
 | `core/utils/app_theme.dart` | Material theme | ~30 |
-| `features/home/repo/home_repository.dart` | Example repo | ~20 |
+| `features/home/repo/home_repository.dart` | Example repo with Hive + Firestore | ~60 |
 | `features/home/state/home_provider.dart` | Example provider | ~25 |
 | `features/home/view/home_screen.dart` | Example screen | ~30 |
 
@@ -52,12 +56,18 @@ View (UI) → Provider (State) → Repository (Data) → Service (I/O)
 
 ```yaml
 provider: ^6.1.0              # State management
-http: ^1.1.0                  # HTTP client  
-shared_preferences: ^2.2.0    # Local storage
+http: ^1.1.0                  # HTTP client
+hive: ^2.2.3                  # Local data persistence
+hive_flutter: ^1.1.0          # Hive Flutter integration
+shared_preferences: ^2.2.0    # Simple app preferences
 intl: ^0.18.0                 # Date/number formatting
 
-# Commented out (uncomment as needed):
-# firebase_core, firebase_auth, cloud_firestore
+# Commented out (uncomment when Firebase is configured):
+# firebase_core: ^2.24.0
+# firebase_auth: ^4.16.0
+# cloud_firestore: ^4.14.0
+# firebase_storage: ^11.6.0
+# firebase_analytics: ^10.8.0
 ```
 
 ## Common Commands After Scaffold
@@ -185,6 +195,73 @@ EOF
 #     create: (_) => AuthProvider(AuthRepository()),
 #   ),
 ```
+
+## Firebase Setup
+
+### 1. Install FlutterFire CLI
+
+```bash
+dart pub global activate flutterfire_cli
+```
+
+### 2. Configure Firebase Projects
+
+```bash
+# Navigate to your project
+cd path/to/your_project
+
+# Configure Firebase (interactive)
+flutterfire configure
+```
+
+### 3. Using Firebase Services
+
+**Authentication Example:**
+```dart
+final authService = FirebaseAuthService();
+final user = await authService.signInWithEmailAndPassword(email, password);
+```
+
+**Firestore Example:**
+```dart
+final firestoreService = FirestoreService();
+await firestoreService.setDocument('users/$uid', userData);
+final data = await firestoreService.getDocument('users/$uid');
+```
+
+**Storage Example:**
+```dart
+final storageService = FirebaseStorageService();
+final url = await storageService.uploadFile('avatars/$uid.jpg', fileBytes);
+```
+
+**Analytics Example:**
+```dart
+final analytics = AnalyticsService();
+await analytics.logEvent('user_signed_in', {'method': 'email'});
+```
+
+### 4. Repository Pattern with Hive + Firestore
+
+The generated `HomeRepository` shows cache-first pattern:
+
+```dart
+// Check Hive cache first
+var items = await _hiveService.getAll<HomeItem>('home_items');
+
+// Fallback to Firestore if cache empty
+if (items.isEmpty) {
+  final snapshot = await _firestoreService.getCollection('home_items');
+  items = snapshot.docs.map((doc) => HomeItem.fromJson(doc.data())).toList();
+  
+  // Cache in Hive
+  await _hiveService.saveAll('home_items', items);
+}
+```
+
+**Data persistence strategy:**
+- **Hive**: Complex objects, offline-first data, cache layer
+- **SharedPreferences**: Simple settings (theme, language, onboarding status)
 
 ## Documentation
 
