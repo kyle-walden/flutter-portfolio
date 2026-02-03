@@ -633,18 +633,18 @@ class HomeProvider extends ChangeNotifier {
 
   HomeProvider(this._repo);
 
-  Future<void> loadData() async {
+  Future<void> loadData({String key = 'default'}) async {
     isLoading = true;
     notifyListeners();
 
-    data = await _repo.fetchData();
+    data = await _repo.fetchData(key);
 
     isLoading = false;
     notifyListeners();
   }
 
-  Future<void> saveData(Map<String, dynamic> newData) async {
-    await _repo.saveData(newData);
+  Future<void> saveData(Map<String, dynamic> newData, {String key = 'default'}) async {
+    await _repo.saveLocalData(key, newData);
     data = newData;
     notifyListeners();
   }
@@ -811,14 +811,18 @@ cat > pubspec_additions.yaml << 'EOF'
 EOF
 
 print_info "Adding dependencies to pubspec.yaml..."
-# Insert before dev_dependencies
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
-    sed -i '' '/^dev_dependencies:/r pubspec_additions.yaml' pubspec.yaml
-else
-    # Linux
-    sed -i '/^dev_dependencies:/r pubspec_additions.yaml' pubspec.yaml
-fi
+# Use awk to insert dependencies before dev_dependencies
+awk '
+    /^dev_dependencies:/ {
+        # Read and print the additions file
+        while ((getline line < "pubspec_additions.yaml") > 0) {
+            print line
+        }
+        close("pubspec_additions.yaml")
+    }
+    { print }
+' pubspec.yaml > pubspec.yaml.tmp
+mv pubspec.yaml.tmp pubspec.yaml
 rm pubspec_additions.yaml
 print_success "Dependencies added"
 

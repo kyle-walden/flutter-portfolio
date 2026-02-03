@@ -2,9 +2,9 @@ import '../../../core/services/firestore_service.dart';
 import '../models/availability.dart';
 
 class BookingRepo {
-  final FirestoreService _fs;
+  // final FirestoreService _fs;  // Unused in stubbed implementation
 
-  BookingRepo(this._fs);
+  BookingRepo(FirestoreService fs);  // Accept but don't store for now
 
   Future<List<AvailabilityRule>> fetchAvailability(String vendorId) async {
     // stubbed: return demo availability rules for portfolio
