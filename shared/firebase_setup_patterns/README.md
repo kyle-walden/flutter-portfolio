@@ -114,6 +114,7 @@ Firebase project IDs must be unique across **ALL Firebase users worldwide**, not
 - ✅ Use specific names: `yourname-appname`, `company-product-2024`
 - ✅ Add unique suffixes: `-prod`, `-2024`, random string
 
+
 **Recommended naming patterns:**
 ```
 <username>-<appname>           # kyle-portfolio-site
