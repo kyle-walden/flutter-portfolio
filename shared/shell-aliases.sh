@@ -1,11 +1,18 @@
 # Flutter Scaffold Shell Aliases
 # Add these to your ~/.zshrc or ~/.bashrc for easy access
 
+# Get the directory where this script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Quick scaffold command
-alias flutter-scaffold='bash /path/to/flutter-portfolio/shared/scaffold-flutter-project.sh'
+alias flutter-scaffold="bash $SCRIPT_DIR/scaffold-flutter-project.sh"
+
+# Firebase setup command
+alias firebase-setup="bash $SCRIPT_DIR/firebase_setup_patterns/setup-firebase.sh"
 
 # Example usage:
 #   flutter-scaffold my_awesome_app
+#   firebase-setup
 
 # Add a new feature to current Flutter project
 flutter-add-feature() {
@@ -150,6 +157,7 @@ flutter-show-structure() {
 echo "Flutter scaffold aliases loaded!"
 echo "Available commands:"
 echo "  flutter-scaffold <name>       - Create new Flutter project"
+echo "  firebase-setup [options]      - Setup Firebase in current project"
 echo "  flutter-add-feature <name>    - Add feature to current project"
 echo "  flutter-check-compliance      - Validate architecture"
 echo "  flutter-test-quick            - Run tests + analyze"

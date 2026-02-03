@@ -36,10 +36,19 @@ This directory contains shared architecture patterns, documentation, and tools u
 ### Development Helpers
 - **[shell-aliases.sh](shell-aliases.sh)** - Shell aliases for common tasks
   - `flutter-scaffold` - Quick project creation
+  - `firebase-setup` - Automated Firebase configuration
   - `flutter-add-feature` - Generate feature structure
   - `flutter-check-compliance` - Validate architecture
   - `flutter-test-quick` - Run tests and analysis
   - **Usage**: `source shell-aliases.sh`
+
+### Firebase Setup
+- **[firebase_setup_patterns/](firebase_setup_patterns/)** - Complete Firebase integration
+  - **[README.md](firebase_setup_patterns/README.md)** - Comprehensive setup guide
+  - **[setup-firebase.sh](firebase_setup_patterns/setup-firebase.sh)** - Automated setup script
+  - **[QUICKSTART.md](firebase_setup_patterns/QUICKSTART.md)** - Quick reference
+  - Covers: CLI installation, project configuration, service setup, platform-specific config
+  - **Usage**: `bash firebase_setup_patterns/setup-firebase.sh`
 
 ## 🚀 Quick Start
 
@@ -50,8 +59,11 @@ This directory contains shared architecture patterns, documentation, and tools u
 cd ~/projects
 bash /path/to/flutter-portfolio/shared/scaffold-flutter-project.sh my_app
 
-# 2. Start developing
+# 2. Setup Firebase (optional)
 cd my_app
+bash /path/to/flutter-portfolio/shared/firebase_setup_patterns/setup-firebase.sh
+
+# 3. Start developing
 flutter run
 ```
 
@@ -71,9 +83,10 @@ bash /path/to/flutter-portfolio/shared/scaffold-flutter-project.sh .
 source /path/to/flutter-portfolio/shared/shell-aliases.sh
 
 # Then use convenience commands
-flutter-scaffold new_app
-flutter-add-feature auth
-flutter-check-compliance
+flutter-scaffold new_app          # Create new project
+firebase-setup                    # Setup Firebase in current project
+flutter-add-feature auth          # Add new feature
+flutter-check-compliance          # Validate architecture
 ```
 
 ## 📋 Architecture Overview
