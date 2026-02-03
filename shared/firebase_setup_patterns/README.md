@@ -107,18 +107,56 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 ### Step 3: Create Firebase Project
 
-**Option A: Via Firebase Console** (Web UI)
+**⚠️ Important: Project IDs are Globally Unique**
+
+Firebase project IDs must be unique across **ALL Firebase users worldwide**, not just your account. This means:
+- ❌ Common names like `my-app`, `test`, `portfolio` are likely taken
+- ✅ Use specific names: `yourname-appname`, `company-product-2024`
+- ✅ Add unique suffixes: `-prod`, `-2024`, random string
+
+**Recommended naming patterns:**
+```
+<username>-<appname>           # kyle-portfolio-site
+<company>-<product>-<env>      # acme-crm-prod
+<appname>-<random>             # myapp-x7k9m3
+<domain-reversed>              # com-example-myapp
+```
+
+**Option A: Via Firebase Console** (Web UI - Recommended for beginners)
 1. Go to https://console.firebase.google.com
 2. Click "Add project"
-3. Enter project name (e.g., `my-flutter-app`)
-4. Enable/disable Google Analytics (recommended: enable)
-5. Select Analytics account or create new
-6. Click "Create project"
+3. Enter project name (e.g., `yourname-flutter-app`)
+4. Project ID will auto-generate (you can edit it if available)
+5. Enable/disable Google Analytics (recommended: enable)
+6. Select Analytics account or create new
+7. Click "Create project"
 
 **Option B: Via CLI**
 ```bash
 # List existing projects
 firebase projects:list
+
+# Create new project with unique ID
+firebase projects:create yourname-myapp-2024
+
+# If ID is taken, try with suffix
+firebase projects:create yourname-myapp-$(date +%Y%m%d)
+
+# Set as current project
+firebase use yourname-myapp-2024
+```
+
+**💡 Pro Tip:** If you get "project with ID already exists" error, the ID is taken globally (not just in your account). Try:
+```bash
+# Add year suffix
+firebase projects:create myapp-2024
+
+# Add your username
+firebase projects:create $(whoami)-myapp
+
+# Add random string
+firebase projects:create myapp-$(openssl rand -hex 3)
+```
 
 # Create new project (if needed)
 firebase projects:create my-flutter-app
@@ -615,6 +653,29 @@ export PATH="$PATH:/usr/local/bin"
 firebase logout
 firebase login --reauth
 ```
+
+**Problem**: "Project with ID already exists" when creating project
+```bash
+# Firebase project IDs are globally unique across ALL users (not just your account)
+# Solution: Use a more unique project ID
+
+# Try with year suffix
+firebase projects:create myapp-2024
+
+# Try with your username
+firebase projects:create $(whoami)-myapp
+
+# Try with random suffix
+firebase projects:create myapp-$(openssl rand -hex 3)
+
+# Or use reversed domain name (if you own a domain)
+firebase projects:create com-yourdomain-myapp
+```
+
+**💡 Best Practice:** Always use descriptive, unique project IDs like:
+- `yourname-appname-env` (e.g., `kyle-portfolio-prod`)
+- `company-product-year` (e.g., `acme-crm-2024`)
+- `domain-reversed` (e.g., `com-example-myapp`)
 
 ---
 

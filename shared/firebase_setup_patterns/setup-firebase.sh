@@ -290,6 +290,10 @@ if [ -z "$FIREBASE_PROJECT" ]; then
     read -p "Enter Firebase project ID (or press Enter to create new): " FIREBASE_PROJECT
     
     if [ -z "$FIREBASE_PROJECT" ]; then
+        print_info "Firebase project IDs are globally unique across ALL Firebase users."
+        print_info "Recommendation: Use format '<yourname>-<appname>' or add random suffix"
+        print_info "Examples: 'john-portfolio-2024', 'acme-app-x7k9', 'mycompany-website'"
+        echo ""
         read -p "Enter new project ID (lowercase, hyphens only): " FIREBASE_PROJECT
         
         if [ -z "$FIREBASE_PROJECT" ]; then
@@ -299,18 +303,77 @@ if [ -z "$FIREBASE_PROJECT" ]; then
         
         if command_exists firebase; then
             print_step "Creating Firebase project: $FIREBASE_PROJECT"
-            firebase projects:create "$FIREBASE_PROJECT"
+            print_info "This may take a minute..."
             
-            if [ $? -eq 0 ]; then
-                print_success "Firebase project created"
+            if firebase projects:create "$FIREBASE_PROJECT" 2>&1 | tee /tmp/firebase_create_output.txt; then
+                print_success "Firebase project created successfully!"
             else
-                print_error "Failed to create project"
-                print_info "You can create it manually at: https://console.firebase.google.com"
-                read -p "Press Enter after creating the project..."
+                # Check if it's a duplicate ID error
+                if grep -q "already a project with ID" /tmp/firebase_create_output.txt; then
+                    print_error "Project ID '$FIREBASE_PROJECT' is already taken (by someone else globally)"
+                    print_warning "Firebase project IDs are unique across ALL users, not just your account"
+                    echo ""
+                    print_info "Try adding a unique suffix, for example:"
+                    echo "   • ${FIREBASE_PROJECT}-$(date +%Y)"
+                    echo "   • ${FIREBASE_PROJECT}-prod"
+                    echo "   • ${FIREBASE_PROJECT}-$(whoami)"
+                    echo "   • ${FIREBASE_PROJECT}-$(openssl rand -hex 3)"
+                    echo ""
+                    
+                    # Offer to retry with a suffix
+                    read -p "Would you like to retry with '${FIREBASE_PROJECT}-$(date +%Y)'? [Y/n]: " -n 1 -r
+                    echo
+                    if [[ $REPLY =~ ^[Yy]$ ]] || [[ -z $REPLY ]]; then
+                        FIREBASE_PROJECT="${FIREBASE_PROJECT}-$(date +%Y)"
+                        print_step "Trying: $FIREBASE_PROJECT"
+                        
+                        if firebase projects:create "$FIREBASE_PROJECT"; then
+                            print_success "Firebase project created successfully!"
+                        else
+                            print_error "Still failed. Please create manually at: https://console.firebase.google.com"
+                            echo ""
+                            read -p "Enter the project ID after creating it manually: " FIREBASE_PROJECT
+                            
+                            if [ -z "$FIREBASE_PROJECT" ]; then
+                                print_error "Project ID is required"
+                                exit 1
+                            fi
+                        fi
+                    else
+                        print_info "Please create the project manually at: https://console.firebase.google.com"
+                        echo ""
+                        read -p "Enter the project ID after creating it manually: " FIREBASE_PROJECT
+                        
+                        if [ -z "$FIREBASE_PROJECT" ]; then
+                            print_error "Project ID is required"
+                            exit 1
+                        fi
+                    fi
+                else
+                    print_error "Failed to create project (unknown error)"
+                    print_info "You can create it manually at: https://console.firebase.google.com"
+                    echo ""
+                    read -p "Enter the project ID after creating it manually: " FIREBASE_PROJECT
+                    
+                    if [ -z "$FIREBASE_PROJECT" ]; then
+                        print_error "Project ID is required"
+                        exit 1
+                    fi
+                fi
             fi
+            
+            # Clean up temp file
+            rm -f /tmp/firebase_create_output.txt
         else
             print_info "Please create the project manually at: https://console.firebase.google.com"
-            read -p "Press Enter after creating the project..."
+            print_warning "Remember: Project IDs must be globally unique across all Firebase users"
+            echo ""
+            read -p "Enter the project ID after creating it: " FIREBASE_PROJECT
+            
+            if [ -z "$FIREBASE_PROJECT" ]; then
+                print_error "Project ID is required"
+                exit 1
+            fi
         fi
     fi
 fi

@@ -36,8 +36,12 @@ firebase login
 # List projects
 firebase projects:list
 
-# Create new project
-firebase projects:create my-new-project
+# Create new project (IDs must be globally unique!)
+firebase projects:create yourname-myapp-2024
+
+# If ID is taken, try with unique suffix
+firebase projects:create myapp-$(date +%Y)
+firebase projects:create myapp-$(openssl rand -hex 3)
 
 # Use specific project
 firebase use my-project-id
@@ -101,6 +105,14 @@ npm install -g firebase-tools
 ```bash
 dart pub global activate flutterfire_cli
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+```
+
+### Project ID already exists
+```bash
+# Firebase project IDs are globally unique (not just your account)
+# Try a more unique ID:
+firebase projects:create yourname-myapp-2024
+firebase projects:create myapp-$(openssl rand -hex 3)
 ```
 
 ### iOS build fails
