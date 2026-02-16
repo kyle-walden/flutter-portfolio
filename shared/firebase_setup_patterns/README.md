@@ -22,6 +22,9 @@ Complete guide and automation for setting up Firebase in Flutter projects, from 
 # From your Flutter project root
 /path/to/flutter-portfolio/shared/firebase_setup_patterns/setup-firebase.sh
 
+# If it gets stuck on ℹ️  Running: flutterfire configure --project=mobmeb-kw --platforms=ios,android,web,macos --yes, just run again:
+`Running: flutterfire configure --project=mobmeb-kw --platforms=ios,android,web,macos --yes`
+
 # Or if you have shell aliases installed:
 firebase-setup
 ```
