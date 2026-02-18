@@ -1,11 +1,14 @@
 # Kyle Walden – Portfolio
 
-This monorepo represents production-level portfolio work by a junior–mid Flutter developer.
+This monorepo represents production-level Flutter (Dart) portfolio work by a junior–mid developer.
+
+Full portfolio link: [https://github.com/kyle-walden/flutter-portfolio](https://github.com/kyle-walden/flutter-portfolio)
 
 **Purpose**: The purpose of this portfolio is to try demonstrate and aim for the below outlined key competencies (and their respective goals) through projects in this monorepo. 
 
-- Intended roles: Flutter Developer / Mobile Engineer (Cross-platform).
-- Scope and ownership: All projects in this repository were designed, implemented, and maintained by me as a solo developer.
+**Intended roles**: Flutter Developer / Mobile Engineer (Cross-platform).
+
+**Scope and ownership**: All projects in this repository were designed, implemented, and maintained by me as a solo developer.
 
 ## How to review this portfolio
 1. Read through this README.md to understand the competencies being demonstrated through projects in this monorepo.
@@ -87,6 +90,7 @@ Goals:
 ### [Pitboard](projects/pitboard)
 
 Status: Production (shipped)
+Stage: Product-user fit (actively acquiring users and iterating based on feedback)
 
 Tech Stack: [Pitboard stack](projects/pitboard/README.md#Tech-Stack)
 
@@ -104,6 +108,7 @@ Pitboard is a mobile application for iOS (Android in progress) that records moto
 ### [vendor0](projects/vendor0)
 
 Status: Production (shipped)
+Stage: Product-user fit (actively acquiring users and iterating based on feedback)
 
 Stack: [vendor0 stack](projects/vendor0/README.md#Tech-Stack)
 
@@ -116,6 +121,26 @@ vendor0 is a service vendor booking management web-app that helps service vendor
 - Public customer service booking form accessed via service vendor's unqiue URL slug
 - Vendor service, booking and availability management 
 - Flask server-mediated booking creation and slug-reservation to protect IP and prevent abuse
+
+### [mobmeb](../mobmeb)
+
+Status: Development
+
+Tech Stack: Flutter (Web & Mobile), Firebase (Cloud Functions, Firestore, Storage, Analytics), Apple PassKit, Google Wallet, Payments APIs TBD
+
+#### Description
+mobmeb is a lightweight membership management platform designed for independent SME gyms, clubs, and studios (10-500 members). It provides simple membership management via web with digital wallet pass integration for seamless access / checkin control using dual check-in methods (NFC tap + QR scan).
+
+#### High-level Features
+- Member management with full CRUD operations, search, filtering, and export capabilities
+- Digital wallet passes (Apple Wallet & Google Pay) with QR/NFC check-in tokens
+- Offline-first check-in system with dual validation methods (QR scan and NFC tap)
+- Payment tracking with automated membership extension logic
+- Multi-user access with role-based permissions (owner, manager, staff)
+- Real-time dashboard and reporting with role-based metrics
+- Venue profile and settings management (operating hours, logo upload)
+- Offline-first architecture with local Hive cache and background cloud sync
+- Material 3 design system with responsive web and mobile interfaces
 
 
 ## Tech Stack

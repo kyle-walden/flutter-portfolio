@@ -18,7 +18,7 @@ Refer to concrete examples in:
 
 ## Core principles
 
-- Feature-first organization: keep models, state, views, and tests colocated under `lib/features/<feature>/` for discoverability and small change surfaces.
+- Feature-first organization: keep models, state, views, and tests co-located under `lib/features/<feature>/` for discoverability and small change surfaces. Tests live in `lib/features/<feature>/tests/` to stay with the feature code.
 - Explicit layering: UI → Providers (state) → Repositories → Core Services → External systems (Firestore, HTTP, Storage).
 - Single source of truth: repositories and the sync adapter centralize data ownership and caching.
 - Keep platform code minimal: prefer Dart/services unless a native API requires a platform channel.
@@ -300,14 +300,95 @@ Refer to concrete examples in:
 
 ## Testing guidance
 
-- Unit tests
-	- Services, repositories, and providers should be unit-tested with dependency mocks (mock `FirebaseService`, `HttpService`, `HiveService`).
+### Test organization
 
-- Widget tests
-	- Test critical screens with provider overrides to inject fake services or repositories.
+Tests are organized following a co-location pattern:
 
-- Integration/E2E
-	- Use emulator suites or a controlled backend (staging) for end-to-end tests. The `firebase/emulator` directory in project backends and `functions/tests` provide examples in this repo.
+- **Feature-specific tests** live in `lib/features/<feature>/tests/`
+  - Unit tests for repositories: `tests/repo/`
+  - Widget tests for views: `tests/view/`
+  - Model tests (optional): `tests/models/`
+  - **Why co-located?** Easy discovery, clear ownership, move with feature code
+
+- **Shared widget tests** live in `lib/shared_widgets/tests/`
+  - Tests for reusable components used across features
+  - Co-located with shared widget implementations
+
+- **Project-level tests** live in `test/`
+  - Integration tests: `test/integration_test/`
+  - Smoke tests: `test/smoke_tests/`
+  - Cross-feature test utilities and helpers
+
+### Test types
+
+- **Unit tests** (`lib/features/<feature>/tests/repo/`)
+  - Test repositories, services, and business logic
+  - Use dependency mocks (mock `FirebaseService`, `HttpService`, `HiveService`)
+  - Fast, deterministic, no external dependencies
+  - Run frequently during development
+
+- **Widget tests** (`lib/features/<feature>/tests/view/`)
+  - Test UI components and screens
+  - Use provider overrides to inject fake services/repositories
+  - Verify rendering, interactions, and state changes
+  - Test critical user workflows
+
+- **Integration tests** (`test/integration_test/`)
+  - End-to-end flows across multiple features
+  - Use Firebase Emulators or staging backend
+  - Organized by feature domain or user flow:
+    - `auth_flows_test.dart` - Login, signup, onboarding
+    - `member_management_flow_test.dart` - Add member → send pass → check-in
+    - `payment_flow_test.dart` - Record payment → membership update
+  - Keep structure relatively flat; group by primary feature when needed
+  - Run before releases and in CI/CD
+
+- **Smoke tests** (`test/smoke_tests/`)
+  - Quick validation that all views can instantiate
+  - Catch obvious build/import errors
+  - Run in CI to catch breaking changes early
+
+### Running tests
+
+```bash
+# Feature-specific tests
+flutter test lib/features/auth/tests/
+
+# Shared widget tests
+flutter test lib/shared_widgets/tests/
+
+# Integration tests (with emulators)
+flutter test test/integration_test/
+
+# All tests
+flutter test
+```
+
+### Integration test structure
+
+Integration tests should be organized by **feature domain** or **user flow**:
+
+**Feature-based** (when tests focus on one feature):
+```
+test/integration_test/
+├── auth_flows_test.dart           # Login, signup, password reset
+├── member_management_flow_test.dart # Member CRUD workflows
+└── settings_flow_test.dart         # Settings and profile updates
+```
+
+**Flow-based** (when tests cross multiple features):
+```
+test/integration_test/
+├── onboarding_to_first_member_test.dart  # Complete new user journey
+├── payment_and_renewal_test.dart         # Payment → Membership extension
+└── check_in_with_qr_test.dart            # Generate pass → Scan → Check-in
+```
+
+**Hybrid approach** (recommended):
+- Use descriptive file names that clearly indicate what's being tested
+- Keep structure flat (avoid deep nesting)
+- Group by primary feature when you have many related tests
+- As tests grow, optionally create subdirectories: `test/integration_test/auth/`, `test/integration_test/checkout/`
 
 ## CI / CD
 
@@ -318,7 +399,7 @@ Refer to concrete examples in:
 
 - Patterns to follow
 	- Thin controllers (providers) that delegate to services/repositories.
-	- Collocate feature code for easier changes (`lib/features/<feature>/...`).
+	- Co-locate feature code and tests: `lib/features/<feature>/` includes code and `tests/` subfolder.
 	- Centralize sync, caching and conflict resolution in repositories/sync adapters.
 
 - Anti-patterns to avoid

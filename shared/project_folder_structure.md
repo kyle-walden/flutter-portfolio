@@ -33,9 +33,16 @@ The typical project folder layout (copyable tree):
 │   │   │       ├── repo — Repository interfaces/implementations
 │   │   │       ├── state — State management (providers, blocs, etc.)
 │   │   │       ├── tests — Unit and widget tests for the feature
+│   │   │       │   ├── repo — Repository tests
+│   │   │       │   ├── view — Widget/UI tests
+│   │   │       │   └── models — Model tests (optional)
 │   │   │       └── view — Screens, pages, and UI layouts
 │   │   └── shared_widgets — Reusable UI components across features
-│   └── test — Project-level test suites (unit/widget/integration)
+│   │       ├── tests — Tests for shared widgets
+│   │       └── *.dart — Shared widget implementations
+│   └── test — Project-level test suites
+│       ├── integration_test — End-to-end integration tests
+│       └── smoke_tests — Quick validation tests for all views
 └── screenshots — Example app screenshots
 ```
 
