@@ -19,6 +19,7 @@ This file focuses on unit and widget test patterns used across `projects/` apps.
 
 Unit tests
 - Target: services, repositories, pure functions and provider controllers (ChangeNotifier logic). Keep these fast and isolated.
+- purpose: e.g. validate mapping, caching, offline-queue logic, error handling, and service adapters (fast, deterministic).
 - Strategy:
 	- Inject dependencies (constructor injection or provider overrides) so tests substitute fakes/mocks.
 	- Mock external systems (HTTP, Firestore) using `mocktail` or lightweight fakes.
@@ -26,11 +27,16 @@ Unit tests
 
 Widget tests
 - Target: single widgets and small screen flows without a real device.
+- purpose: e.g. validate UI rendering and interaction without devices.
 - Strategy:
 	- Wrap widgets with a minimal app shell (MaterialApp, Theme, and provider overrides).
 	- Use Keys for important elements to make finders stable.
 	- Use `tester.pumpWidget()` and `tester.pumpAndSettle()` to wait for async work.
 	- Use `fake_async` or `clock` for deterministic timer behaviour.
+
+Interaction tests
+- Target: multi-widget flows and interactions that require more realistic environment (e.g. navigation, state persistence).
+- Strategy: validate real SDK behavior, Firestore rules + emulator wiring, platform plugins, CocoaPods/ID signing paths, and full end-to-end flows (auth → repo → backend). They catch issues unit tests miss (rules, emulator host config, serialization edge cases, platform-specific plugin behavior).
 
 ## Mocking and fakes
 

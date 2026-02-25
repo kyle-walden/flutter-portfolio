@@ -4,6 +4,9 @@
 # Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Note: ChromeDriver is no longer required for integration tests.
+# Firebase API tests run via 'flutter test' + Firebase Emulator Suite.
+
 # Quick scaffold command
 alias flutter-scaffold="bash $SCRIPT_DIR/scaffold-flutter-project.sh"
 
