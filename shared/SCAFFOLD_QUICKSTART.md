@@ -3,281 +3,42 @@
 ## One-Line Usage
 
 ```bash
-bash /path/to/flutter-portfolio/shared/scaffold-flutter-project.sh my_app
+dart pub global activate very_good_cli
+
+very_good create flutter_app --project-name my_app # generates lib with core, features, shared_widget folders
 ```
 
-## What Gets Created
+## Typical Folder Structure
+Feature-first architecture with clear separation of concerns. Services are shared across features, while each feature has its own view, state management, and repository layers - following MVVM pattern.
 
 ```
 my_app/
 ├── lib/
-│   ├── app/providers/              # Global state
+│   ├── app/                        # App bootstrap, routing, global providers
 │   ├── core/
-│   │   ├── services/               # Firebase, HTTP, LocalStorage (3 files)
+│   │   ├── services/               # E.g. Firebase, HTTP, LocalStorage (3 files)
 │   │   ├── utils/                  # AppTheme
 │   │   ├── config/                 # Constants
 │   │   └── models/                 # Shared models
-│   ├── features/home/              # Example feature
-│   │   ├── view/                   # home_screen.dart
-│   │   ├── state/                  # home_provider.dart
-│   │   ├── repo/                   # home_repository.dart
-│   │   ├── models/                 # Feature models
-│   │   ├── widgets/                # Feature widgets
-│   │   └── tests/                  # Tests
+│   ├── features/feature_name/      # Example feature following MVVM pattern
+│   │   ├── repo/                   # repositories (data access layer)
+│   │   ├── view/                   # feature_screen.dart
+│   │   ├── models/                 # Data structure
+│   │   └── viewmodel/              # state management 
+│   ├── main.dart                   # App entry point
 │   └── shared_widgets/             # custom_button.dart
-├── lib/README.md                   # Architecture guide
-├── ARCHITECTURE_CHECKLIST.md       # Compliance checklist
-└── pubspec.yaml                    # With provider, http, etc.
+├── test/                           # Unit and widget tests, folder follows lib structure for discoverability
+├── README.md                       # Guide
+└── pubspec.yaml                    # Dependencies
 ```
 
-## Architecture Pattern Enforced
+## Architecture Pattern Enforced 
 
-```
-View (UI) → Provider (State) → Repository (Data) → Service (I/O)
-```
+MVVM (Model-View-ViewModel): 
+- **Model**: Data structures, no logic
+- **View**: Stateless UI, no business logic, only calls ViewModel
+- **ViewModel**: State management, calls Repositories, notifies Views
+- **Repository**: Data access layer, calls Services, no UI logic
+- **Services**: Thin wrappers around Firebase, HTTP, local storage, etc.
 
-## Key Files Generated
 
-| File | Purpose | Lines |
-|------|---------|-------|
-| `core/services/firebase_auth_service.dart` | Firebase Auth wrapper | ~50 |
-| `core/services/firestore_service.dart` | Firestore wrapper | ~35 |
-| `core/services/firebase_storage_service.dart` | Storage wrapper | ~40 |
-| `core/services/analytics_service.dart` | Analytics wrapper | ~35 |
-| `core/services/preferences_service.dart` | App preferences (SharedPreferences) | ~75 |
-| `core/services/hive_service.dart` | Local data persistence (Hive) | ~65 |
-| `core/services/http_service.dart` | HTTP client | ~110 |
-| `core/utils/app_theme.dart` | Material theme | ~30 |
-| `features/home/repo/home_repository.dart` | Example repo with Hive + Firestore | ~60 |
-| `features/home/state/home_provider.dart` | Example provider | ~25 |
-| `features/home/view/home_screen.dart` | Example screen | ~30 |
-
-## Added Dependencies
-
-```yaml
-provider: ^6.1.0              # State management
-http: ^1.1.0                  # HTTP client
-hive: ^2.2.3                  # Local data persistence
-hive_flutter: ^1.1.0          # Hive Flutter integration
-shared_preferences: ^2.2.0    # Simple app preferences
-intl: ^0.18.0                 # Date/number formatting
-
-# Commented out (uncomment when Firebase is configured):
-# firebase_core: ^2.24.0
-# firebase_auth: ^4.16.0
-# cloud_firestore: ^4.14.0
-# firebase_storage: ^11.6.0
-# firebase_analytics: ^10.8.0
-```
-
-## Common Commands After Scaffold
-
-```bash
-cd my_app
-
-# Run the app
-flutter run
-
-# Run tests
-flutter test
-
-# Check compliance
-grep -r "FirebaseFirestore.instance" lib/features/*/view/  # Should be empty
-flutter analyze
-
-# Add a feature
-mkdir -p lib/features/booking/{view,state,repo,models,widgets,tests}
-```
-
-## Architecture Rules
-
-### ✅ DO
-- Views call providers only
-- Providers inject repositories
-- Repositories inject services  
-- Services are thin (<120 lines)
-- Use `ConsumerWidget` or `StatefulWidget`
-
-### ❌ DON'T
-- No `FirebaseFirestore.instance` in views
-- No `http.post()` in views
-- No business logic in widgets
-- No direct service instantiation
-- No god objects (>300 lines)
-
-## Validation Checklist
-
-```bash
-# No violations in views
-grep -r "FirebaseFirestore" lib/features/*/view/
-grep -r "http\." lib/features/*/view/
-grep -r "SharedPreferences" lib/features/*/view/
-
-# All tests pass
-flutter test
-
-# No lint errors
-flutter analyze
-
-# Code formatted
-dart format lib/
-```
-
-## Example: Add Authentication Feature
-
-```bash
-# 1. Create structure
-mkdir -p lib/features/auth/{view,state,repo,tests}
-
-# 2. Create repository
-cat > lib/features/auth/repo/auth_repository.dart << 'EOF'
-import '../../../core/services/firebase_service.dart';
-
-class AuthRepository {
-  Future<void> signIn(String email, String password) async {
-    await FirebaseService.auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-}
-EOF
-
-# 3. Create provider
-cat > lib/features/auth/state/auth_provider.dart << 'EOF'
-import 'package:flutter/foundation.dart';
-import '../repo/auth_repository.dart';
-
-class AuthProvider extends ChangeNotifier {
-  final AuthRepository _repo;
-  bool loading = false;
-  
-  AuthProvider(this._repo);
-  
-  Future<void> signIn(String email, String password) async {
-    loading = true;
-    notifyListeners();
-    await _repo.signIn(email, password);
-    loading = false;
-    notifyListeners();
-  }
-}
-EOF
-
-# 4. Create view
-cat > lib/features/auth/view/auth_screen.dart << 'EOF'
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../state/auth_provider.dart';
-
-class AuthScreen extends StatelessWidget {
-  const AuthScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<AuthProvider>(context);
-    return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
-      body: provider.loading
-          ? const CircularProgressIndicator()
-          : ElevatedButton(
-              onPressed: () => provider.signIn('user@example.com', 'pass'),
-              child: const Text('Sign In'),
-            ),
-    );
-  }
-}
-EOF
-
-# 5. Wire up in main.dart
-# Add to MultiProvider:
-#   ChangeNotifierProvider(
-#     create: (_) => AuthProvider(AuthRepository()),
-#   ),
-```
-
-## Firebase Setup
-
-### 1. Install FlutterFire CLI
-
-```bash
-dart pub global activate flutterfire_cli
-```
-
-### 2. Configure Firebase Projects
-
-```bash
-# Navigate to your project
-cd path/to/your_project
-
-# Configure Firebase (interactive)
-flutterfire configure
-```
-
-### 3. Using Firebase Services
-
-**Authentication Example:**
-```dart
-final authService = FirebaseAuthService();
-final user = await authService.signInWithEmailAndPassword(email, password);
-```
-
-**Firestore Example:**
-```dart
-final firestoreService = FirestoreService();
-await firestoreService.setDocument('users/$uid', userData);
-final data = await firestoreService.getDocument('users/$uid');
-```
-
-**Storage Example:**
-```dart
-final storageService = FirebaseStorageService();
-final url = await storageService.uploadFile('avatars/$uid.jpg', fileBytes);
-```
-
-**Analytics Example:**
-```dart
-final analytics = AnalyticsService();
-await analytics.logEvent('user_signed_in', {'method': 'email'});
-```
-
-### 4. Repository Pattern with Hive + Firestore
-
-The generated `HomeRepository` shows cache-first pattern:
-
-```dart
-// Check Hive cache first
-var items = await _hiveService.getAll<HomeItem>('home_items');
-
-// Fallback to Firestore if cache empty
-if (items.isEmpty) {
-  final snapshot = await _firestoreService.getCollection('home_items');
-  items = snapshot.docs.map((doc) => HomeItem.fromJson(doc.data())).toList();
-  
-  // Cache in Hive
-  await _hiveService.saveAll('home_items', items);
-}
-```
-
-**Data persistence strategy:**
-- **Hive**: Complex objects, offline-first data, cache layer
-- **SharedPreferences**: Simple settings (theme, language, onboarding status)
-
-## Documentation
-
-- **Full guide**: `shared/SCAFFOLD_USAGE.md`
-- **Architecture**: `shared/architecture_patterns.md`
-- **Folder structure**: `shared/project_folder_structure.md`
-
-## Support
-
-Issues? Check:
-1. Generated `lib/README.md` in your project
-2. Generated `ARCHITECTURE_CHECKLIST.md`
-3. Portfolio examples: `flutter-portfolio/projects/*/flutter_app/`
-
----
-
-**Script location**: `flutter-portfolio/shared/scaffold-flutter-project.sh`  
-**Requires**: Flutter SDK, Bash  
-**Platforms**: macOS, Linux, WSL

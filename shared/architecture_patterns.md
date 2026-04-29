@@ -199,18 +199,23 @@ Refer to concrete examples in:
 3. **REPO** (`history_repository.dart`):
    ```dart
    Future<void> create(Map item) async {
-     // 1. Write to local cache immediately (optimistic update)
+     // 1. Write to local Hive cache immediately — always, regardless of auth state.
+     //    Provides instant optimistic UI feedback even when signed out.
      await _box!.put(item['id'].toString(), item);
-     
-     // 2. Queue remote operation for later sync
+
+     // Steps 2–4 are AUTH-GATED: only run when a user is signed in.
+     // If not authenticated, data remains Hive-only until the user signs in,
+     // at which point flushQueueIfAuthenticated() drains the queue.
+
+     // 2. Queue remote operation for later sync (auth required)
      await _enqueueOp({
-       'op': 'create', 
-       'id': item['id'].toString(), 
-       'payload': item, 
+       'op': 'create',
+       'id': item['id'].toString(),
+       'payload': item,
        'retries': 0
      });
-     
-     // 3. Try to flush queue to backend if user is authenticated
+
+     // 3. Attempt to flush queue — no-op if user is not authenticated
      await flushQueueIfAuthenticated();
    }
    ```
@@ -252,11 +257,13 @@ Refer to concrete examples in:
 - Repositories depend on service **interfaces**, not Firebase/Hive directly
 - Easy to mock for testing
 
-**3. Offline-First Strategy**
-- Write to local cache immediately (instant UI feedback)
-- Queue remote operations
-- Sync when online
-- Repository hides complexity from provider
+**3. Offline-First & Auth-Gated Sync Strategy**
+- **Step 1 — always**: Write to local Hive cache immediately (instant UI feedback, works signed-out)
+- **Steps 2–4 — auth-gated**: Queue op → flush when online → background pull remote
+  - If the user is **not authenticated**, steps 2–4 are skipped entirely; `flushQueueIfAuthenticated()` is a no-op
+  - When the user **signs in**, the queue is drained automatically (call `flushQueueIfAuthenticated()` from the auth success handler)
+- Conflict resolution: last-write-wins using server timestamp
+- Repository hides this complexity from the provider layer
 
 **4. Single Source of Truth**
 - Repository owns the data for a feature

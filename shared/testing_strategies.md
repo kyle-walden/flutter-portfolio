@@ -84,6 +84,6 @@ CI tips
 
 ## Scope to extend
 
-- Integration/E2E, golden tests, and emulator-driven scenarios are intentionally out of scope for this document. There's clear scope to introduce them later: add `integration_test/`, `golden/` baselines, and CI steps that provision the Firebase Emulator Suite or device farms.
+- Integration/E2E, golden tests, and emulator-driven scenarios are intentionally out of scope for this document. 
 
 
