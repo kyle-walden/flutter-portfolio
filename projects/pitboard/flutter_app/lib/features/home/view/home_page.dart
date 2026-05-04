@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth/state/auth_provider.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 import '../../auth/view/sign_in_page.dart';
-import '../state/location_provider.dart';
+import '../viewmodel/location_viewmodel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
+    final auth = Provider.of<AuthViewModel>(context);
     final user = auth.user;
 
     // If signed out, redirect to sign-in page (defensive)
@@ -61,10 +61,10 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 12),
                   SwitchListTile(
                     title: const Text('Enable location'),
-                    value: Provider.of<LocationProvider>(context).enabled,
+                    value: Provider.of<LocationViewModel>(context).enabled,
                     onChanged: (v) async {
                       // delegate to provider which handles permission & prefs
-                      final provider = Provider.of<LocationProvider>(context, listen: false);
+                      final provider = Provider.of<LocationViewModel>(context, listen: false);
                       await provider.toggle(v);
                       if (!provider.enabled) {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   ),
 
                   const SizedBox(height: 12),
-                  Consumer<LocationProvider>(builder: (_, lp, __) {
+                  Consumer<LocationViewModel>(builder: (_, lp, __) {
                     if (!lp.enabled) return const SizedBox.shrink();
                     if (lp.currentPosition == null) return const Text('Waiting for location...');
                     final pos = lp.currentPosition!;

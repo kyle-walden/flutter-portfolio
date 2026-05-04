@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/map_widget.dart';
+import 'map_widget.dart';
 
 class PreSessionPage extends StatelessWidget {
   const PreSessionPage({super.key});

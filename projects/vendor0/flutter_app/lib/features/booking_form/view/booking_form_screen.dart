@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../vendor_info/state/vendor_provider.dart';
-import '../../booking_management/state/booking_provider.dart';
-import '../state/booking_form_provider.dart';
+import '../../vendor_info/viewmodel/vendor_viewmodel.dart';
+import '../../booking_management/viewmodel/booking_viewmodel.dart';
+import '../viewmodel/booking_form_viewmodel.dart';
 
 class BookingFormScreen extends StatefulWidget {
   final String? slug;
@@ -31,8 +31,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
       // the booking provider to fetch availability rules.
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         try {
-          final vp = context.read<VendorProvider>();
-          final bp = context.read<BookingProvider>();
+          final vp = context.read<VendorViewModel>();
+          final bp = context.read<BookingViewModel>();
           await vp.loadVendorBySlug(widget.slug!);
           if (vp.vendor != null) {
             await bp.loadAvailability(vp.vendor!.id);
@@ -46,8 +46,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final vendorProv = context.watch<VendorProvider>();
-    final bookingProv = context.watch<BookingProvider>();
+    final vendorProv = context.watch<VendorViewModel>();
+    final bookingProv = context.watch<BookingViewModel>();
     return Scaffold(
       appBar: AppBar(title: Text('Booking — ${widget.slug ?? "public"}')),
       body: Padding(
@@ -64,7 +64,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
             ],
             TextField(controller: _nameCtl, decoration: const InputDecoration(labelText: 'Your name')),
             const SizedBox(height: 8),
-            Consumer<BookingFormProvider>(builder: (context, formProv, _) {
+            Consumer<BookingFormViewModel>(builder: (context, formProv, _) {
               return ElevatedButton(
                 onPressed: formProv.submitting
                     ? null

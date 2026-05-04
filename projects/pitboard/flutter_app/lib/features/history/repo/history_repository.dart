@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../core/services/firebase_service.dart';
@@ -31,7 +32,12 @@ class HistoryRepository {
     if (_box == null) return;
     if (_box!.isNotEmpty) return;
 
-    final user = FirebaseService.currentUser;
+    User? user;
+    try {
+      user = FirebaseService.currentUser;
+    } catch (_) {
+      return;
+    }
     if (user == null) return;
 
     final snapshot = await FirebaseService.db
@@ -76,7 +82,12 @@ class HistoryRepository {
   /// Attempt to flush queued ops to Firestore if user is signed in.
   /// Implements a simple retry policy (max 3 attempts per op).
   Future<void> flushQueueIfAuthenticated() async {
-    final user = FirebaseService.currentUser;
+    User? user;
+    try {
+      user = FirebaseService.currentUser;
+    } catch (_) {
+      return;
+    }
     if (user == null) return;
     if (_queueBox == null) return;
 

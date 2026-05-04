@@ -1,5 +1,5 @@
 import '../../../core/services/firestore_service.dart';
-import '../models/availability.dart';
+import '../model/availability.dart';
 
 class BookingRepo {
   // final FirestoreService _fs;  // Unused in stubbed implementation

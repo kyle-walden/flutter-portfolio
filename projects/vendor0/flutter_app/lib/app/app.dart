@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import '../core/services/firestore_service.dart';
 import '../core/services/http_service.dart';
 import '../core/utils/app_theme.dart';
-import '../features/vendor_info/state/vendor_provider.dart';
-import '../features/booking_management/state/booking_provider.dart';
+import '../features/vendor_info/viewmodel/vendor_viewmodel.dart';
+import '../features/booking_management/viewmodel/booking_viewmodel.dart';
 import '../features/booking_form/view/booking_form_screen.dart';
 import '../features/vendor_info/view/vendor_dashboard.dart';
-import '../features/booking_form/state/booking_form_provider.dart';
+import '../features/booking_form/viewmodel/booking_form_viewmodel.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -18,9 +18,9 @@ class App extends StatelessWidget {
       providers: [
         Provider(create: (_) => FirestoreService()),
         Provider(create: (_) => HttpService()),
-        ChangeNotifierProvider(create: (ctx) => VendorProvider(ctx.read<FirestoreService>(), ctx.read<HttpService>())),
-        ChangeNotifierProvider(create: (ctx) => BookingProvider(ctx.read<FirestoreService>())),
-        ChangeNotifierProvider(create: (ctx) => BookingFormProvider(ctx.read<HttpService>())),
+        ChangeNotifierProvider(create: (ctx) => VendorViewModel(ctx.read<FirestoreService>(), ctx.read<HttpService>())),
+        ChangeNotifierProvider(create: (ctx) => BookingViewModel(ctx.read<FirestoreService>())),
+        ChangeNotifierProvider(create: (ctx) => BookingFormViewModel(ctx.read<HttpService>())),
       ],
       child: MaterialApp(
         title: 'vendor0 — admin',

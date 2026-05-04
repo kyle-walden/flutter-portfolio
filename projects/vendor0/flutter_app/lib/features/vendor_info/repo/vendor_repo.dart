@@ -1,4 +1,4 @@
-import '../../vendor_info/models/vendor.dart';
+import '../model/vendor.dart';
 import '../../../core/services/firestore_service.dart';
 import '../../../core/services/http_service.dart';
 

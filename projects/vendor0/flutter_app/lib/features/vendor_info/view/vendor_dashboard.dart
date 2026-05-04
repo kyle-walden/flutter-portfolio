@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../state/vendor_provider.dart';
+import '../viewmodel/vendor_viewmodel.dart';
 
 class VendorDashboard extends StatefulWidget {
   const VendorDashboard({super.key});
@@ -20,7 +20,7 @@ class _VendorDashboardState extends State<VendorDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final vendorProv = context.watch<VendorProvider>();
+    final vendorProv = context.watch<VendorViewModel>();
     return Scaffold(
       appBar: AppBar(title: const Text('Vendor Dashboard')),
       body: Padding(

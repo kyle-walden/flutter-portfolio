@@ -3,6 +3,7 @@
 ## One-Line Usage for Quick Scaffold Creation
 
 ```bash
+# flutter quick scaffold
 dart pub global activate very_good_cli
 
 very_good create flutter_app --project-name my_app # generates lib with core, features, shared_widget folders

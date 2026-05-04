@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../features/history/state/history_provider.dart';
-import '../features/auth/state/auth_provider.dart';
-import '../features/home/state/location_provider.dart';
+import '../features/history/viewmodel/history_viewmodel.dart';
+import '../features/auth/viewmodel/auth_viewmodel.dart';
+import '../features/home/viewmodel/location_viewmodel.dart';
 import '../features/home/view/home_page.dart';
 
 class App extends StatelessWidget {
@@ -12,9 +12,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => HistoryProvider()..load()),
-        ChangeNotifierProvider(create: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => HistoryViewModel()..load()),
+        ChangeNotifierProvider(create: (_) => LocationViewModel()),
       ],
       child: MaterialApp(
         title: 'Pitboard',

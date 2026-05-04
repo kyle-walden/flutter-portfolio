@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth/state/auth_provider.dart';
+import '../../auth/viewmodel/auth_viewmodel.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -14,12 +14,12 @@ class _SignInPageState extends State<SignInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  Future<void> _signIn(AuthProvider auth) async {
+  Future<void> _signIn(AuthViewModel auth) async {
     if (!_formKey.currentState!.validate()) return;
     await auth.signIn(_emailController.text.trim(), _passwordController.text);
   }
 
-  Future<void> _signUp(AuthProvider auth) async {
+  Future<void> _signUp(AuthViewModel auth) async {
     if (!_formKey.currentState!.validate()) return;
     await auth.signUp(_emailController.text.trim(), _passwordController.text);
   }
@@ -46,7 +46,7 @@ class _SignInPageState extends State<SignInPage> {
                 validator: (v) => (v == null || v.isEmpty) ? 'Password required' : null,
               ),
               const SizedBox(height: 12),
-              Consumer<AuthProvider>(builder: (context, auth, _) {
+              Consumer<AuthViewModel>(builder: (context, auth, _) {
                 if (auth.error != null) return Text(auth.error!, style: const TextStyle(color: Colors.red));
                 if (auth.isLoading) return const CircularProgressIndicator();
                 return Row(
