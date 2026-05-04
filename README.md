@@ -18,8 +18,8 @@ Flutter Developer / Mobile Engineer / Frontend Developer. Junior–mid level. Al
 
 | Pattern | Where |
 |---|---|
-| MVVM — offline-first sync | [Pitboard → history feature](projects/pitboard/README.md) |
-| Services Repository — slug ownership + auth | [vendor0 → Flask backend](projects/vendor0/README.md) |
+| MVVM — offline-first sync feature example | [Pitboard → history feature](projects/pitboard/README.md) |
+| Services Repository — slug ownership + auth example | [vendor0 → Flask backend](projects/vendor0/README.md) |
 
 **2. Product-Led Engineering** — analytics-driven iteration, not assumption-driven
 
@@ -39,9 +39,9 @@ Flutter Developer / Mobile Engineer / Frontend Developer. Junior–mid level. Al
 ## Projects
 
 ### [Pitboard](projects/pitboard) — iOS & Android
-This project folder contains a Flutter client app with firebase backend integration. 
-> Status: Production (shipped) – iOS and Android
-> Tech Stack: Flutter · Firebase · Hive · Mapbox
+This project folder contains a Flutter client app with firebase backend integration.
+- Status: Production (shipped) – iOS and Android
+- Tech Stack: Flutter · Firebase · Hive · Mapbox
 
 #### Description
 A motorsport (motocross) performance mobile app.
@@ -50,8 +50,8 @@ A motorsport (motocross) performance mobile app.
 
 ### [vendor0](projects/vendor0) — Web
 This project folder contains only the Flask API backend of a web app.
-> Status: Production (shipped) – web app, Firebase Hosting
-> Tech Stack: Flutter Web · Flask (Cloud Run) · Firestore · Firebase Auth
+- Status: Production (shipped) – web app, Firebase Hosting
+- Tech Stack: Flutter Web · Flask (Cloud Run) · Firestore · Firebase Auth
 
 #### Description
 A service vendor booking management web-app.
