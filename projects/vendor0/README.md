@@ -3,7 +3,7 @@
 
 **Production web app** — booking management platform for service vendors.
 
-![home_screen](projects/vendor0/assets/screenshots/all.png)
+![home_screen](assets/screenshots/all.png)
 
 ---
 
