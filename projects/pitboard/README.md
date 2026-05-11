@@ -3,6 +3,8 @@
 **Production iOS & Android** — motorsport performance app for motocross.  
 Records high-frequency GPS + telemetry, delivers post-session analysis.
 
+![pitboard](assets/screenshots/pb-ss.png)
+
 ---
 
 ## Highlight: Offline-First Sync
