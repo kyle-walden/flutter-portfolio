@@ -1,16 +1,19 @@
 # Kyle Walden — Portfolio
 
+
 Flutter Developer / Mobile Engineer / Frontend Developer  / Cross-platform Developer. Junior–mid level. All projects solo-built and shipped to production.
+
 
 **Purpose**: The purpose of this portfolio is to demonstrate [the below key competencies](#competencies) through projects in this monorepo. 
 
+
 > Quickly review this portfolio by skimming the references under each [competency](#competencies) below, or deep dive into the [project folders](projects) for full context.
+
 
 ## Tech Stack at a Glance
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white) ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black) ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
----
 
 ## Projects
 
@@ -38,7 +41,6 @@ A service vendor booking management web-app.
 - Platform for SME businesses to manage bookings, offered services, business information, and availability.
 - Technical challenges: Display a vendor's public customer service booking form with dynamic data – accessed via a service vendor's unqiue URL slug; business data security and access control – ensuring only authorized users can access and modify their business data.
 
----
 
 ## Competencies
 
