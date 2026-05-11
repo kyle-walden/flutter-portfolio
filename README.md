@@ -1,6 +1,6 @@
 # Kyle Walden — Portfolio
 
-Flutter Developer / Mobile Engineer / Frontend Developer. Junior–mid level. All projects solo-built and shipped to production.
+Flutter Developer / Mobile Engineer / Frontend Developer  / Cross-platform Developer. Junior–mid level. All projects solo-built and shipped to production.
 
 **Purpose**: The purpose of this portfolio is to **demonstrate the below key competencies** through projects in this monorepo. 
 

@@ -3,6 +3,8 @@
 
 **Production web app** — booking management platform for service vendors.
 
+![home_screen](projects/vendor0/assets/screenshots/all.png)
+
 ---
 
 ## Highlight: Slug-Based Public Booking Form
