@@ -17,6 +17,7 @@ Flutter Developer / Mobile Engineer / Frontend Developer  / Cross-platform Devel
 
 ## Projects
 
+
 ### [Pitboard](projects/pitboard) — iOS & Android
 This project folder contains a Flutter client app with firebase backend integration.
 - Status: Production (shipped) – iOS and Android
@@ -29,11 +30,18 @@ A motorsport (motocross) performance mobile app.
 - High-frequency (1-10hz) GPS and on-device sensor capture (accelerometers, gyroscopes) for user performance analysis and visualisation
 - Technical challenge: Offline-first sync – session data storage for users in remote locations with poor connectivity, with background cloud-sync for data backup and cross-device access.
 
-### [vleet](projects/vleet) — Web
-[TODO]
 
-### [mobmeb](projects/mobmeb) — macOS & Windows
-[TODO]
+### [vleet](projects/vleet) — Web
+This project folder contains a full-stack app with AI multimodal and agentic features.
+- Status: Production (local hosting) – web app
+- Tech Stack: React / Next.js · FastAPI · PydanticAI · PostgreSQL 16 + pgvector
+
+**Description**
+Vehicle fleet management AI-featured web-app.
+- Built with Next.js 15 (App Router) and FastAPI – a platform for managing and tracking vehicle fleet fuel consumption.
+- Features an AI layer including an LLM-powered document ingestor (PDF/CSV fuel card statements → structured transactions), a Text-to-SQL natural language analyst, and a pgvector semantic search layer blending relational and unstructured driver notes; 
+- Backed by PostgreSQL 16 + pgvector, Redis, and PydanticAI orchestration with Gemini 1.5 Flash.
+
 
 ### [vendor0](projects/vendor0) — Web
 This project folder contains only the Flask API backend of a web app.
@@ -48,6 +56,16 @@ A service vendor booking management web-app.
 - Technical challenges: Display a vendor's public customer service booking form with dynamic data – accessed via a service vendor's unqiue URL slug; business data security and access control – ensuring only authorized users can access and modify their business data.
 
 
+### [mobmeb](projects/mobmeb) — Web
+This project folder contains a Flutter client app.
+- Status: Development – web app, busy 
+- Tech Stack: Flutter Web · Provider
+
+**Description**
+Physical venue membership management and check-in methods.
+- Flutter web app for venue membership management and check-in platform with QR, NFC, and manual check-in state management.
+- [busy] Technical challenge: busy developing check-in methods of NFC, QR, and facial recognition. 
+
 ## Competencies
 
 **1. Architectural Integrity** — decoupled, testable, team-ready code
@@ -57,8 +75,12 @@ A service vendor booking management web-app.
 | MVVM — offline-first sync feature example | [Pitboard → history feature](projects/pitboard/README.md) |
 | Services Repository — slug ownership + auth example | [vendor0 → Flask backend](projects/vendor0/README.md) |
 
-**2. AI-product engineering: Multimodal contexts and agentic workflows** 
-[TODO]
+**2. AI-product engineering** – Multimodal contexts, agentic workflows
+| Example | Where |
+|---|---|
+| LLM Multimodal API Fluency | [Upload a PDF/CSV fuel card statement](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/backend/app/services/ingest_service.py) → extracts and returns structured transactions highlighting any anomalies; Text-to-SQL agent queries |
+| RAG & Vector DBs | [pgvector stores unstructured driver notes](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/backend/app/models/driver_note.py) → blends SQL and semantic search |
+| Orchestration | [pydantic_ai as the orchestrating agent](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/projects/vleet/backend/app/services/analyst_service.py) |
 
 **3. Audited AI-Pilot Workflow** — AI-assisted development for speed, audit for quality
 
@@ -66,6 +88,7 @@ A service vendor booking management web-app.
 |---|---|
 | Unit tests — auth viewmodel + offline-sync repo | [test/](projects/pitboard/flutter_app/test/) |
 | Testing in CI/CD — iOS build + test pipeline | [ios_ci.yml](projects/pitboard/ci/github-actions/ios_ci.yml) |
+| AI Agent Eval suite (Golden Queries) | [Vleet Text-to-SQL feature agent validation](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/backend/tests/test_analyst_evals.py) |
 
 **4. Product-Led Engineering** — analytics-driven iteration, not assumption-driven
 
