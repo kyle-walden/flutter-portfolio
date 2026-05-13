@@ -24,10 +24,16 @@ This project folder contains a Flutter client app with firebase backend integrat
 
 ![pitboard](projects/pitboard/assets/screenshots/pb-ss.png)
 
-#### Description
+**Description**
 A motorsport (motocross) performance mobile app.
 - High-frequency (1-10hz) GPS and on-device sensor capture (accelerometers, gyroscopes) for user performance analysis and visualisation
 - Technical challenge: Offline-first sync – session data storage for users in remote locations with poor connectivity, with background cloud-sync for data backup and cross-device access.
+
+### [vleet](projects/vleet) — Web
+[TODO]
+
+### [mobmeb](projects/mobmeb) — macOS & Windows
+[TODO]
 
 ### [vendor0](projects/vendor0) — Web
 This project folder contains only the Flask API backend of a web app.
@@ -36,7 +42,7 @@ This project folder contains only the Flask API backend of a web app.
 
 ![vendor0](projects/vendor0/assets/screenshots/all.png)
 
-#### Description
+**Description**
 A service vendor booking management web-app.
 - Platform for SME businesses to manage bookings, offered services, business information, and availability.
 - Technical challenges: Display a vendor's public customer service booking form with dynamic data – accessed via a service vendor's unqiue URL slug; business data security and access control – ensuring only authorized users can access and modify their business data.
@@ -51,11 +57,8 @@ A service vendor booking management web-app.
 | MVVM — offline-first sync feature example | [Pitboard → history feature](projects/pitboard/README.md) |
 | Services Repository — slug ownership + auth example | [vendor0 → Flask backend](projects/vendor0/README.md) |
 
-**2. Product-Led Engineering** — analytics-driven iteration, not assumption-driven
-
-| Example | Where |
-|---|---|
-| Firebase Analytics integration | [analytics_service.dart](projects/pitboard/flutter_app/lib/core/services/analytics_service.dart) |
+**2. AI-product engineering: Multimodal contexts and agentic workflows** 
+[TODO]
 
 **3. Audited AI-Pilot Workflow** — AI-assisted development for speed, audit for quality
 
@@ -63,3 +66,9 @@ A service vendor booking management web-app.
 |---|---|
 | Unit tests — auth viewmodel + offline-sync repo | [test/](projects/pitboard/flutter_app/test/) |
 | Testing in CI/CD — iOS build + test pipeline | [ios_ci.yml](projects/pitboard/ci/github-actions/ios_ci.yml) |
+
+**4. Product-Led Engineering** — analytics-driven iteration, not assumption-driven
+
+| Example | Where |
+|---|---|
+| Firebase Analytics integration | [analytics_service.dart](projects/pitboard/flutter_app/lib/core/services/analytics_service.dart) |
