@@ -1,9 +1,9 @@
 
-# vendor0
+# Book
 
 **Production web app** — booking management platform for service vendors.
 
-![vendor0](assets/screenshots/all.png)
+![book](assets/screenshots/all.png)
 
 ---
 

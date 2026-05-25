@@ -31,7 +31,9 @@ A motorsport (motocross) performance mobile app.
 - Technical challenge: Offline-first sync – session data storage for users in remote locations with poor connectivity, with background cloud-sync for data backup and cross-device access.
 
 
-### [vleet](projects/vleet) — Web
+### [Fleet](projects/fleet) — Web
+**Website:** https://fleet.mobmeb.co/
+
 This project folder contains a full-stack app with AI multimodal and agentic features.
 - Status: Production (local hosting) – web app
 - Tech Stack: React / Next.js · FastAPI · PydanticAI · PostgreSQL 16 + pgvector
@@ -43,12 +45,14 @@ Vehicle fleet management AI-featured web-app.
 - Backed by PostgreSQL 16 + pgvector, Redis, and PydanticAI orchestration with Gemini 1.5 Flash.
 
 
-### [vendor0](projects/vendor0) — Web
+### [Book](projects/book) — Web
+**Website:** https://book.mobmeb.co/
+
 This project folder contains only the Flask API backend of a web app.
 - Status: Production (shipped) – web app, Firebase Hosting
 - Tech Stack: Flutter Web · Flask (Cloud Run) · Firestore · Firebase Auth
 
-![vendor0](projects/vendor0/assets/screenshots/all.png)
+![book](projects/book/assets/screenshots/all.png)
 
 **Description**
 A service vendor booking management web-app.
@@ -56,7 +60,9 @@ A service vendor booking management web-app.
 - Technical challenges: Display a vendor's public customer service booking form with dynamic data – accessed via a service vendor's unqiue URL slug; business data security and access control – ensuring only authorized users can access and modify their business data.
 
 
-### [mobmeb](projects/mobmeb) — Web
+### [Members](projects/members) — Web
+**Website:** https://member.mobmeb.co/
+
 This project folder contains a Flutter client app.
 - Status: Development – web app, busy 
 - Tech Stack: Flutter Web · Provider
@@ -73,14 +79,14 @@ Physical venue membership management and check-in methods.
 | Pattern | Where |
 |---|---|
 | MVVM — offline-first sync feature example | [Pitboard → history feature](projects/pitboard/README.md) |
-| Services Repository — slug ownership + auth example | [vendor0 → Flask backend](projects/vendor0/README.md) |
+| Services Repository — slug ownership + auth example | [Book → Flask backend](projects/book/README.md) |
 
 **2. AI-product engineering** – Multimodal contexts, agentic workflows
 | Example | Where |
 |---|---|
-| LLM Multimodal API Fluency | [Upload a PDF/CSV fuel card statement](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/backend/app/services/ingest_service.py) → extracts and returns structured transactions highlighting any anomalies; Text-to-SQL agent queries |
-| RAG & Vector DBs | [pgvector stores unstructured driver notes](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/backend/app/models/driver_note.py) → blends SQL and semantic search |
-| Orchestration | [pydantic_ai as the orchestrating agent](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/projects/vleet/backend/app/services/analyst_service.py) |
+| LLM Multimodal API Fluency | [Upload a PDF/CSV fuel card statement](https://github.com/kyle-walden/portfolio/blob/main/projects/fleet/backend/app/services/ingest_service.py) → extracts and returns structured transactions highlighting any anomalies; Text-to-SQL agent queries |
+| RAG & Vector DBs | [pgvector stores unstructured driver notes](https://github.com/kyle-walden/portfolio/blob/main/projects/fleet/backend/app/models/driver_note.py) → blends SQL and semantic search |
+| Orchestration | [pydantic_ai as the orchestrating agent](https://github.com/kyle-walden/portfolio/blob/main/projects/fleet/projects/fleet/backend/app/services/analyst_service.py) |
 
 **3. Audited AI-Pilot Workflow** — AI-assisted development for speed, audit for quality
 
@@ -88,7 +94,7 @@ Physical venue membership management and check-in methods.
 |---|---|
 | Unit tests — auth viewmodel + offline-sync repo | [test/](projects/pitboard/flutter_app/test/) |
 | Testing in CI/CD — iOS build + test pipeline | [ios_ci.yml](projects/pitboard/ci/github-actions/ios_ci.yml) |
-| AI Agent Eval suite (Golden Queries) | [Vleet Text-to-SQL feature agent validation](https://github.com/kyle-walden/portfolio/blob/main/projects/vleet/backend/tests/test_analyst_evals.py) |
+| AI Agent Eval suite (Golden Queries) | [Fleet Text-to-SQL feature agent validation](https://github.com/kyle-walden/portfolio/blob/main/projects/fleet/backend/tests/test_analyst_evals.py) |
 
 **4. Product-Led Engineering** — analytics-driven iteration, not assumption-driven
 
